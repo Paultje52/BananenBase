@@ -1,13 +1,5 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, data, config, queue) => {
-  if (args[0] == "test") {
-    await client.category.forEach(category => {
-      await category.forEach(command => {
-        console.log(`${category} => ${command.name.}`);
-      })
-    })
-    await return;
-  }
   if (!args[0]) {
     let prefix = data.get(`${message.guild.id}.prefix`)
     let embed = new Discord.RichEmbed()
