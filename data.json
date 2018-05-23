@@ -10,5 +10,8 @@
 			"muziek": "\n`!play` Speel een liedje af!\n`!queue` Bekijk de wachtrij in jouw server!\n",
 			"main": "\n`!botinfo` Bekijk informatie van de bot\n`!help` Krijg hulp!\n`!prijslijst` Bekijk de prijslijst!\n`!serverinfo` Krijg info over deze server!\n`!site` Krijg een link om onze website te bekijken!\n"
 		}
+	},
+	"393475468508004364": {
+		"prefix": "!"
 	}
 }
