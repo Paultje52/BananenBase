@@ -15,8 +15,6 @@ const Discord = require("discord.js"),
       chalk = require("chalk"),
       dataModule = require("./custom_modules/data");
 
-console.log(require('discord.js').version);
-
 //Ook maken wij de discord client aan en laten wij die inloggen met de token die in de config.json staat. Ook maken we een command variable!
 const client = new Discord.Client({autoReconnect: true});
 client.login(config.token);
@@ -60,7 +58,7 @@ setTimeout(function() {
 //We hebben ook events, die worden hier goed uitgevoerd!
 fs.readdir("./events/", (err, files) => {
   if (err) return console.error(err);
-  console.log(`events laden...`);
+  console.log(`Events laden...`);
   let i = 0;
   files.forEach(file => {
     let eventFunction = require(`./events/${file}`);
@@ -74,4 +72,19 @@ fs.readdir("./events/", (err, files) => {
   });
 });
 
-process.on('unhandledRejection', console.error);
+//Als je een nodejs app runt, heb je ook process events, zoals 'exit'. Die worden er hier gebruikt!
+fs.readdir("./process_events/", (err, files) => {
+  if (err) return console.error(err);
+  console.log(`Process events laden...`);
+  let i = 0;
+  files.forEach(file => {
+    let processEventFunction = require(`./process_events/${file}`);
+    let processEventName = file.split(".")[0];
+    console.log(`   ${chalk.yellow("PROCESS_EVENT")}: ${i + 1}: ${processEventName}.js is succesvol geladen!`);
+    if (processEventFunction.config === undefined) return;
+    if (processEventFunction.config.enable === undefined) return;
+    if (processEventFunction.config.enable !== true) return;
+    i++;
+    process.on(processEventName, (...args) => processEventFunction.run(...args));
+  });
+});
