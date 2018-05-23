@@ -30,7 +30,7 @@ Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Commands) voor meer 
 
 ### Events
 ```js
-exports.run = (client, data, config, start, ..args, queue) => {
+exports.run = (client, ..args) => {
   //Hier de event code
 }
 exports.config = {
@@ -38,6 +38,17 @@ exports.config = {
 }
 ```
 Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Events) voor meer informatie van events!
+
+### Process events
+```js
+exports.run = (..args) => {
+  //Hier de process event code
+}
+exports.config = {
+  enable: true
+}
+```
+Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Process-events) voor meer informatie van process events!
 
 ### Database
 ```js
