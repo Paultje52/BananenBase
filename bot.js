@@ -19,10 +19,15 @@ const Discord = require("discord.js"),
 const client = new Discord.Client({autoReconnect: true});
 client.login(config.token);
 client.commands = new Discord.Collection();
-let queue = {};
 
 //Nu maken wij de database aan!
 const data = new dataModule({path: __dirname});
+
+//En dan nu de variables in client, zodat de bot sneller is en alle variables worden meegenomen!
+client.queue = {};
+client.data = data;
+client.config = config;
+client.start = start;
 
 //Nu laden wij de commands in!
 setTimeout(function() {
@@ -68,7 +73,7 @@ fs.readdir("./events/", (err, files) => {
     if (eventFunction.config.enable === undefined) return;
     if (eventFunction.config.enable !== true) return;
     i++;
-    client.on(eventName, (...args) => eventFunction.run(client, data, config, start, ...args, queue));
+    client.on(eventName, (...args) => eventFunction.run(client, ...args));
   });
 });
 

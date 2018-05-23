@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
-exports.run = async (client, message, args, data, config, queue) => {
+exports.run = async (client, message, args) => {
+  let data = client.data;
+  let config = client.config;
   if (!args[0]) {
     let prefix = data.get(`${message.guild.id}.prefix`)
     let embed = new Discord.RichEmbed()
@@ -28,5 +30,6 @@ exports.help = {
   name: "help",
   usage: "help [command]",
   description: "Krijg hulp over de bot!",
-  category: "main"
+  category: "main",
+  enable: true
 }
