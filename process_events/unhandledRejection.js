@@ -1,5 +1,5 @@
 exports.run = (error) => {
-  console.error;
+  console.log(error);
 }
 
 exports.config = {
