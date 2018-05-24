@@ -38,6 +38,7 @@ consoleCommands.on('line', async (input) => {
 
     if (command.toLowerCase() === "restart" || command.toLowerCase() === "rs") {
       console.log("<---> Bot herstarten...");
+      client.destroy();
       setTimeout(function(){
         delete require.cache[require.resolve(`./config.json`)];
         fs.readdir("./commands/", (err, files) => {
@@ -97,6 +98,7 @@ consoleCommands.on('line', async (input) => {
             }
           })
         })
+        client.login(config.token);
         console.log("<---> Bot herstart!")
       }, Math.round(Math.random() * 5000 + 1));
     } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
