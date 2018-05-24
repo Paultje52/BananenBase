@@ -98,7 +98,7 @@ consoleCommands.on('line', async (input) => {
           })
         })
         console.log("<---> Bot herstart!")
-      }, 1000)
+      }, Math.round(Math.random() * 5000 + 1));
     } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
       await console.log("Ik stop...");
       process.exit();
