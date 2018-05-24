@@ -13,6 +13,7 @@ const Discord = require("discord.js"),
       querystring = require("querystring"),
       search = require("youtube-search"),
       chalk = require("chalk"),
+      consoleModule = require("readline"),
       dataModule = require("./custom_modules/data");
 
 //Ook maken wij de discord client aan en laten wij die inloggen met de token die in de config.json staat. Ook maken we een command variable!
@@ -28,6 +29,81 @@ client.queue = {};
 client.data = data;
 client.config = config;
 client.start = start;
+
+//Nu maken wij de console line in zodat je commands (zoals restart) kan doen!
+const consoleCommands = consoleModule.createInterface({input: process.stdin, output: process.stdout});
+consoleCommands.on('line', async (input) => {
+    let args = input.split(" ").slice(1);
+    let command = input.split(" ")[0];
+
+    if (command.toLowerCase() === "restart" || command.toLowerCase() === "rs") {
+      console.log("<---> Bot herstarten...");
+      setTimeout(function(){
+        delete require.cache[require.resolve(`./config.json`)];
+        fs.readdir("./commands/", (err, files) => {
+          if (err) throw (err);
+          files.forEach(file => {
+            if (file.endsWith(".js")) {
+              delete require.cache[require.resolve(`./commands/${file}`)];
+            } else {
+              try {
+                fs.readdir(`./commands/${file}/`, (err, bestanden) => {
+                  if (err) throw (err);
+                  bestanden.forEach(bestand => {
+                    delete require.cache[require.resolve(`./commands/${file}/${bestand}`)];
+                  })
+                })
+              } catch(err) {
+                if (err) throw (err);
+              }
+            }
+          })
+        })
+        fs.readdir("./events/", (err, files) => {
+          if (err) throw (err);
+          files.forEach(file => {
+            if (file.endsWith(".js")) {
+              delete require.cache[require.resolve(`./events/${file}`)];
+            } else {
+              try {
+                fs.readdir(`./events/${file}/`, (err, bestanden) => {
+                  if (err) throw (err);
+                  bestanden.forEach(bestand => {
+                    delete require.cache[require.resolve(`./events/${file}/${bestand}`)];
+                  })
+                })
+              } catch(err) {
+                if (err) throw (err);
+              }
+            }
+          })
+        })
+        fs.readdir("./process_events/", (err, files) => {
+          if (err) throw (err);
+          files.forEach(file => {
+            if (file.endsWith(".js")) {
+              delete require.cache[require.resolve(`./process_events/${file}`)];
+            } else {
+              try {
+                fs.readdir(`./process_events/${file}/`, (err, bestanden) => {
+                  if (err) throw (err);
+                  bestanden.forEach(bestand => {
+                    delete require.cache[require.resolve(`./process_events/${file}/${bestand}`)];
+                  })
+                })
+              } catch(err) {
+                if (err) throw (err);
+              }
+            }
+          })
+        })
+        console.log("<---> Bot herstart!")
+      }, 1000)
+    } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
+      await console.log("Ik stop...");
+      process.exit();
+    } else console.log(`<---> ${chalk.red(command)} is geen geldig command, kies uit RESTART of STOP!`);
+});
 
 //Nu laden wij de commands in!
 setTimeout(function() {
