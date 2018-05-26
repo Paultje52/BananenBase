@@ -38,96 +38,92 @@ exports.run = async (client) => {
       message.channel.send(embed);
     }
   } else {
-    try {
-      if (client.guild === true) {
-        let prefix = data.get(`${message.guild.id}.prefix`);
-        let embed = new Discord.RichEmbed()
-          .setTitle(`Help: Categorie ${args[0]}`)
-          .setColor("#00ff00")
-        let cmds = '';
-        await client.commands.filter(c=>c.help.category.toLowerCase() === args[0]).forEach(async (command) => {
-          client.message = message;
-          client.cmd = command;
-          let value = await permChecker.check("help", client);
-          if (value !== true) return;
-          cmds += `\`${prefix}${command.help.usage}\` - **${command.help.description}**\n`
-        });
-        if (cmds === '') {
-          try {
-            if (client.guild === true) {
-              let prefix = data.get(`${message.guild.id}.prefix`);
-              let cmd = client.commands.get(args[0]);
-              let value = await permChecker.check("help", client);
-              if (value !== true) return;
-              let embed = new Discord.RichEmbed()
-                .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
-                .setColor("#00ff00")
-                .setTitle(`Help: ${args[0]}`);
-              message.channel.send(embed);
-            } else {
-              let prefix = "!";
-              let cmd = client.commands.get(args[0]);
-              let value = await permChecker.check("help", client);
-              if (value !== true) return;
-              let embed = new Discord.RichEmbed()
-                .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
-                .setColor("#00ff00")
-                .setTitle(`Help: command ${args[0]}`);
-              message.channel.send(embed);
-            }
-          } catch (err) {
-            return message.reply(`ik heb het command **${args[0]}** niet kunnen vinden!`);
+    if (client.guild === true) {
+      let prefix = data.get(`${message.guild.id}.prefix`);
+      let embed = new Discord.RichEmbed()
+        .setTitle(`Help: Categorie ${args[0]}`)
+        .setColor("#00ff00")
+      let cmds = '';
+      await client.commands.filter(c=>c.help.category.toLowerCase() === args[0]).forEach(async (command) => {
+        client.message = message;
+        client.cmd = command;
+        let value = await permChecker.check("help", client);
+        if (value !== true) return;
+        cmds += `\`${prefix}${command.help.usage}\` - **${command.help.description}**\n`
+      });
+      if (cmds === '') {
+        try {
+          if (client.guild === true) {
+            let prefix = data.get(`${message.guild.id}.prefix`);
+            let cmd = client.commands.get(args[0]);
+            let value = await permChecker.check("help", client);
+            if (value !== true) return;
+            let embed = new Discord.RichEmbed()
+              .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
+              .setColor("#00ff00")
+              .setTitle(`Help: ${args[0]}`);
+            message.channel.send(embed);
+          } else {
+            let prefix = "!";
+            let cmd = client.commands.get(args[0]);
+            let value = await permChecker.check("help", client);
+            if (value !== true) return;
+            let embed = new Discord.RichEmbed()
+              .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
+              .setColor("#00ff00")
+              .setTitle(`Help: command ${args[0]}`);
+            message.channel.send(embed);
           }
-        } else {
-          embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht\n\n${cmds}`);
-          message.channel.send(embed);
+        } catch (err) {
+          return message.reply(`ik heb het command/categorie **${args[0]}** niet kunnen vinden!`);
         }
       } else {
-        let prefix = data.get(`${message.guild.id}.prefix`);
-        let embed = new Discord.RichEmbed()
-          .setTitle(`Help: Categorie ${args[0]}`)
-          .setColor("#00ff00")
-        let cmds = '';
-        await client.commands.filter(c=>c.help.category.toLowerCase() === args[0]).forEach(async (command) => {
-          client.message = message;
-          client.cmd = command;
-          let value = await permChecker.check("help", client);
-          if (value !== true) return;
-          cmds += `\`${prefix}${command.help.usage}\` - **${command.help.description}**\n`
-        });
-        if (cmds === '') {
-          try {
-            if (client.guild === true) {
-              let prefix = data.get(`${message.guild.id}.prefix`);
-              let cmd = client.commands.get(args[0]);
-              let value = await permChecker.check("help", client);
-              if (value !== true) return;
-              let embed = new Discord.RichEmbed()
-                .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
-                .setColor("#00ff00")
-                .setTitle(`Help: ${args[0]}`);
-              message.channel.send(embed);
-            } else {
-              let prefix = "!";
-              let cmd = client.commands.get(args[0]);
-              let value = await permChecker.check("help", client);
-              if (value !== true) return;
-              let embed = new Discord.RichEmbed()
-                .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
-                .setColor("#00ff00")
-                .setTitle(`Help: ${args[0]}`);
-              message.channel.send(embed);
-            }
-          } catch (err) {
-            return message.reply(`ik heb het command **${args[0]}** niet kunnen vinden!`);
-          }
-        } else {
-          embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht\n\n${cmds}`);
-          message.channel.send(embed);
-        }
+        embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht\n\n${cmds}`);
+        message.channel.send(embed);
       }
-    } catch(err) {
-      message.channel.send(`Er ging iets fout! \`\`\`${err}\`\`\``);
+    } else {
+      let prefix = "!";
+      let embed = new Discord.RichEmbed()
+        .setTitle(`Help: Categorie ${args[0]}`)
+        .setColor("#00ff00")
+      let cmds = '';
+      await client.commands.filter(c=>c.help.category.toLowerCase() === args[0]).forEach(async (command) => {
+        client.message = message;
+        client.cmd = command;
+        let value = await permChecker.check("help", client);
+        if (value !== true) return;
+        cmds += `\`${prefix}${command.help.usage}\` - **${command.help.description}**\n`
+      });
+      if (cmds === '') {
+        try {
+          if (client.guild === true) {
+            let prefix = data.get(`${message.guild.id}.prefix`);
+            let cmd = client.commands.get(args[0]);
+            let value = await permChecker.check("help", client);
+            if (value !== true) return;
+            let embed = new Discord.RichEmbed()
+              .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
+              .setColor("#00ff00")
+              .setTitle(`Help: ${args[0]}`);
+            message.channel.send(embed);
+          } else {
+            let prefix = "!";
+            let cmd = client.commands.get(args[0]);
+            let value = await permChecker.check("help", client);
+            if (value !== true) return;
+            let embed = new Discord.RichEmbed()
+              .setDescription(`Command: **${cmd.help.name}**\nGebruik: **${prefix}${cmd.help.usage}**\nBeschrijving: **${cmd.help.description}**\nCategorie: **${cmd.help.category}**`)
+              .setColor("#00ff00")
+              .setTitle(`Help: ${args[0]}`);
+            message.channel.send(embed);
+          }
+        } catch (err) {
+          return message.reply(`ik heb het command/categorie **${args[0]}** niet kunnen vinden!`);
+        }
+      } else {
+        embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht\n\n${cmds}`);
+        message.channel.send(embed);
+      }
     }
   }
 }
