@@ -29,6 +29,12 @@ client.queue = {};
 client.data = data;
 client.config = config;
 client.start = start;
+client.dirname = __dirname;
+client.guildPermission1 = [`425643727953068042`]; //Alle servers met server permission 1. Voorbeeld: [`ID1`, `ID2`, `ID3`]
+client.guildPermission2 = []; //Alle servers met server permission 2. Voorbeeld: [`ID1`, `ID2`, `ID3`]
+client.guildPermission3 = []; //Alle servers met server permission 3. Voorbeeld: [`ID1`, `ID2`, `ID3`]
+client.guildPermission4 = []; //Alle servers met server permission 4. Voorbeeld: [`ID1`, `ID2`, `ID3`]
+client.guildPermission5 = []; //Alle servers met server permission 5. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 
 //Nu maken wij de console line in zodat je commands (zoals restart) kan doen!
 const consoleCommands = consoleModule.createInterface({input: process.stdin, output: process.stdout});
@@ -38,6 +44,7 @@ consoleCommands.on('line', async (input) => {
 
     if (command.toLowerCase() === "restart" || command.toLowerCase() === "rs") {
       console.log("<---> Bot herstarten...");
+      client.start = Date.now();
       client.destroy();
       setTimeout(function(){
         delete require.cache[require.resolve(`./config.json`)];
@@ -102,9 +109,27 @@ consoleCommands.on('line', async (input) => {
         console.log("<---> Bot herstart!")
       }, Math.round(Math.random() * 5000 + 1));
     } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
-      await console.log("Ik stop...");
+      await console.log("<---> Ik stop...");
       process.exit();
-    } else console.log(`<---> ${chalk.red(command)} is geen geldig command, kies uit RESTART of STOP!`);
+    } else if (command.toLowerCase() === "guilds" || command.toLowerCase() === "servers") {
+      if (client.guilds.size === 0) return console.log(`<---> Ik zit in geen enkele ${command}!`)
+      let guilds = "";
+      let guildcount = client.guilds.size;
+      let i = 0;
+      let servers = '\n';
+      await client.guilds.forEach(async (guild) => {
+          i++
+          await guild.channels.forEach(async (channel) => {
+              let invite = await channel.createInvite({maxUses: 1, maxAge: 0});
+              servers += `**${guild.name}**: ${invite}\n`;
+              return;
+          })
+          if (i === Number(guildcount)) {
+            console.log(`<---> ${servers}`);
+            return;
+          }
+      })
+    } else return console.log(`<---> ${chalk.red(command)} is geen geldig command, kies uit RESTART of STOP!`);
 });
 
 //Nu laden wij de commands in!
@@ -168,6 +193,6 @@ fs.readdir("./process_events/", (err, files) => {
     if (processEventFunction.config.enable === undefined) return;
     if (processEventFunction.config.enable !== true) return;
     i++;
-    process.on(processEventName, (...args) => processEventFunction.run(...args));
+    process.on(processEventName, (...args) => processEventFunction.run(...args, client));
   });
 });

@@ -1,20 +1,33 @@
-exports.run = (client, message) => {
+exports.run = async (client, message) => {
+  const permChecker = require("permChecker");
   if (message.author.bot) return;
-  if (message.channel.type === "dm") return message.channel.send("Je kunt me alleen in een server gebruiken!");
 
   const settingsBestand = require("../guildSettings.js");
-  settingsBestand.run(client.config, client.data, message);
+  client.guild = await settingsBestand.run(client, message);
 
   let messageArray = message.content.split(" ");
   let command = messageArray[0];
   let args = messageArray.slice(1);
 
-  if (!command.startsWith(client.data.get(`${message.guild.id}.prefix`))) return;
+  if (client.guild === true && !command.toLowerCase().startsWith(client.data.get(`${message.guild.id}.prefix`))) return;
+  if (client.guild === false && !command.toLowerCase().startsWith("!")) return;
 
-  let cmd = client.commands.get(command.slice(client.data.get(`${message.guild.id}.prefix`).length));
-  if (cmd) {
-    if (!cmd.help.enable && !cmd.help && cmd.help.enable !== true) return;
-    cmd.run(client, message, args);
+  if (client.guild === true) {
+    let cmd = client.commands.get(command.slice(client.data.get(`${message.guild.id}.prefix`).length));
+    if (cmd) {
+      client.message = message;
+      client.args = args;
+      client.cmd = cmd;
+      permChecker.check("run", client);
+    }
+  } else {
+    let cmd = client.commands.get(command.slice(1));
+    if (cmd) {
+      client.message = message;
+      client.args = args;
+      client.cmd = cmd;
+      permChecker.check("run", client);
+    }
   }
 }
 exports.config = {
