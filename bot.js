@@ -14,6 +14,7 @@ const Discord = require("discord.js"),
       search = require("youtube-search"),
       chalk = require("chalk"),
       consoleModule = require("readline"),
+      permChecker = require("./custom_modules/permChecker"),
       dataModule = require("./custom_modules/data");
 
 //Ook maken wij de discord client aan en laten wij die inloggen met de token die in de config.json staat. Ook maken we een command variable!

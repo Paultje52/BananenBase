@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const permChecker = require("permChecker");
 exports.run = async (client) => {
   let data = client.data;
   let config = client.config;

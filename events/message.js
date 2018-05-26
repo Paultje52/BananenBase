@@ -1,5 +1,5 @@
 exports.run = async (client, message) => {
-  const permChecker = require("permChecker");
+  const permChecker = require(`${client.dirname}/custom_modules/permChecker`);
   if (message.author.bot) return;
 
   const settingsBestand = require("../guildSettings.js");

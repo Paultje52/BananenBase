@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 exports.run = async (client) => {
-  const permChecker = require("permChecker");
+  const permChecker = require(`${client.dirname}/custom_modules/permChecker`);
   let data = client.data;
   let config = client.config;
   let message = client.message;
