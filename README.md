@@ -30,7 +30,7 @@ Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Commands) voor meer 
 
 ### Events
 ```js
-exports.run = (client, ..args) => {
+exports.run = (client, ...args) => {
   //Hier de event code
 }
 exports.config = {
@@ -41,7 +41,7 @@ Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Events) voor meer in
 
 ### Process events
 ```js
-exports.run = (..args) => {
+exports.run = (client, ...args) => {
   //Hier de process event code
 }
 exports.config = {
