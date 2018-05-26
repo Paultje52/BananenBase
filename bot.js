@@ -14,6 +14,7 @@ const Discord = require("discord.js"),
       search = require("youtube-search"),
       chalk = require("chalk"),
       consoleModule = require("readline"),
+      loader = require("./custom_modules/loader"),
       permChecker = require("./custom_modules/permChecker"),
       dataModule = require("./custom_modules/data");
 
@@ -135,65 +136,11 @@ consoleCommands.on('line', async (input) => {
 
 //Nu laden wij de commands in!
 setTimeout(function() {
-  fs.readdir("./commands/", (err, files) => {
-    console.log(`Commands laden...`);
-    let ii = 0;
-    if (err) throw (err);
-    files.forEach(file => {
-      if (file.endsWith(".js")) {
-        let props = require(`./commands/${file}`);
-        client.commands.set(props.help.name, props);
-        ii++;
-        console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${file} is succesvol geladen!`);
-      } else {
-        try {
-          fs.readdir(`./commands/${file}/`, (err, bestanden) => {
-            if (err) throw (err);
-            bestanden.forEach(bestand => {
-              let props = require(`./commands/${file}/${bestand}`);
-              client.commands.set(props.help.name, props);
-              ii++;
-              console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${bestand} is succesvol geladen!`);
-            })
-          })
-        } catch(err) {
-          if (err) throw (err);
-        }
-      }
-    })
-  })
-}, 10)
+  loader.load("command", client);
+}, 100);
 
 //We hebben ook events, die worden hier goed uitgevoerd!
-fs.readdir("./events/", (err, files) => {
-  if (err) return console.error(err);
-  console.log(`Events laden...`);
-  let i = 0;
-  files.forEach(file => {
-    let eventFunction = require(`./events/${file}`);
-    let eventName = file.split(".")[0];
-    console.log(`   ${chalk.blue("EVENT")}: ${i + 1}: ${eventName}.js is succesvol geladen!`);
-    if (eventFunction.config === undefined) return;
-    if (eventFunction.config.enable === undefined) return;
-    if (eventFunction.config.enable !== true) return;
-    i++;
-    client.on(eventName, (...args) => eventFunction.run(client, ...args));
-  });
-});
+loader.load("event", client);
 
 //Als je een nodejs app runt, heb je ook process events, zoals 'exit'. Die worden er hier gebruikt!
-fs.readdir("./process_events/", (err, files) => {
-  if (err) return console.error(err);
-  console.log(`Process events laden...`);
-  let i = 0;
-  files.forEach(file => {
-    let processEventFunction = require(`./process_events/${file}`);
-    let processEventName = file.split(".")[0];
-    console.log(`   ${chalk.yellow("PROCESS_EVENT")}: ${i + 1}: ${processEventName}.js is succesvol geladen!`);
-    if (processEventFunction.config === undefined) return;
-    if (processEventFunction.config.enable === undefined) return;
-    if (processEventFunction.config.enable !== true) return;
-    i++;
-    process.on(processEventName, (...args) => processEventFunction.run(client, ...args));
-  });
-});
+loader.load("process_event", client);
