@@ -1,4 +1,4 @@
-exports.run = (error, client) => {
+exports.run = (client, error) => {
   if (error) console.log(error);
 }
 

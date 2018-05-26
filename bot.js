@@ -194,6 +194,6 @@ fs.readdir("./process_events/", (err, files) => {
     if (processEventFunction.config.enable === undefined) return;
     if (processEventFunction.config.enable !== true) return;
     i++;
-    process.on(processEventName, (...args) => processEventFunction.run(...args, client));
+    process.on(processEventName, (...args) => processEventFunction.run(client, ...args));
   });
 });
