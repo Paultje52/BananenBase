@@ -1,6 +1,6 @@
 {
   "name": "bananenbase",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "De base van de BananenBot, public voor IEDEREEN!",
   "main": "bot.js",
   "dependencies": {
