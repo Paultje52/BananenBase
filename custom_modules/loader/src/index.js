@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const SRJ = require('self-reload-json')
 module.exports.load = async (type, client) => {
   if (type === "command") {
     await fs.readdir(`${client.dirname}/commands/`, (err, files) => {
@@ -90,5 +91,34 @@ module.exports.load = async (type, client) => {
         }
       })
     })
-  } else throw "Kies uit COMMAND, EVENT of PROCESS_EVENT!";
+  } else if (type === "config") {
+    client.config = {};
+    await fs.readdir(`${client.dirname}/config/`, (err, files) => {
+      console.log(chalk.bold.underline("\nConfigs inladen..."));
+      let i = 0;
+      files.forEach(file => {
+        if (file.endsWith(".json")) {
+          let props = new SRJ(`${client.dirname}/config/${file}/${bestand}`);
+          props.on("updated", () => {console.log(`Config ${chalk.bold(bestand.split(".")[0])} is succesvol geupdate!`)});
+          client.config[bestand.split(".")[0]] = props;
+          i++;
+          console.log(`   ${chalk.cyan("CONFIG")}: ${i}: ${chalk.bold(bestand.split(".")[0])} is succesvol geladen!`);
+        } else {
+          try {
+            fs.readdir(`${client.dirname}/config/${file}/`, (err, bestanden) => {
+              bestanden.forEach(bestand => {
+                let props = new SRJ(`${client.dirname}/config/${file}/${bestand}`);
+                props.on("updated", () => {console.log(`Config ${chalk.bold(bestand.split(".")[0])} is succesvol geupdate!`)});
+                client.config[bestand.split(".")[0]] = props;
+                i++;
+                console.log(`   ${chalk.cyan("CONFIG")}: ${i}: ${chalk.bold(bestand.split(".")[0])} is succesvol geladen!`);
+              })
+            })
+          } catch(err) {
+            if (err) throw (err);
+          }
+        }
+      })
+    })
+  } else throw "Kies uit COMMAND, EVENT, PROCESS_EVENT, FUNCTION of CONFIG!";
 }

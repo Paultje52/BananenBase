@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "dependencies": {
     "chalk": "^2.4.1",
-    "fs": "^2.2.2"
+    "fs": "^2.2.2",
+    "self-reload-json": "^0.4.0"
   },
   "devDependencies": {},
   "repository": {

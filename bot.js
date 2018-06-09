@@ -4,23 +4,13 @@ let start = Date.now();
 
 //Nu gaan we de packages inladen!
 const Discord = require("discord.js"),
-      fs = require("fs"),
-      config = require("./config.json"),
-      yt = require("ytdl-core"),
-      ffmpegbinaries = require("ffmpeg-binaries"),
-      cheerio = require("cheerio"),
-      snekfetch = require("snekfetch"),
-      querystring = require("querystring"),
-      search = require("youtube-search"),
-      chalk = require("chalk"),
       consoleModule = require("readline"),
       loader = require("./custom_modules/loader"),
       permChecker = require("./custom_modules/permChecker"),
       dataModule = require("./custom_modules/data");
 
-//Ook maken wij de discord client aan en laten wij die inloggen met de token die in de config.json staat. Ook maken we een command variable!
+//Ook maken wij de discord client aan en maken we een command variable!
 const client = new Discord.Client({autoReconnect: true});
-client.login(config.token);
 client.commands = new Discord.Collection();
 
 //Nu maken wij de database aan!
@@ -29,7 +19,6 @@ const data = new dataModule({path: __dirname});
 //En dan nu de variables in client, zodat de bot sneller is en alle variables worden meegenomen!
 client.queue = {};
 client.data = data;
-client.config = config;
 client.start = start;
 client.dirname = __dirname;
 client.guildPermission1 = [`425643727953068042`]; //Alle servers met server permission 1. Voorbeeld: [`ID1`, `ID2`, `ID3`]
@@ -107,7 +96,7 @@ consoleCommands.on('line', async (input) => {
             }
           })
         })
-        client.login(config.token);
+        client.login(client.config.main.token);
         console.log("<---> Bot herstart!")
       }, Math.round(Math.random() * 5000 + 1));
     } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
@@ -149,3 +138,13 @@ loader.load("process_event", client);
 setTimeout(function() {
   loader.load("function", client);
 }, 200);
+
+//Als je meerdere configs wilt hebben, gaat dat ook!
+setTimeout(function() {
+  loader.load("config", client);
+}, 300);
+
+//Als alles gedaan is, start de bot op!
+setTimeout(function() {
+  client.login(client.config.main.token);
+}, 500);
