@@ -55,3 +55,26 @@ Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Process-events) voor
 data.set(`key`, `value`);
 ```
 Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Database) voor meer informatie van de database!
+
+### Functions
+```js
+exports.run = async (client, string = undefined) => {
+  //Functie
+}
+exports.help = {
+  name: "NAAM",
+  category: "CATEGORIE"
+}
+exports.config = {
+  enable: true
+}
+```
+Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Functions) voor meer informatie van de functions!
+
+### Configs
+```json
+{
+  //Config tekst
+}
+```
+Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Configs) voor meer informatie van de configs!
