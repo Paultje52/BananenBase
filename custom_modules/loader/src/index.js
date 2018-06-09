@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports.load = async (type, client) => {
   if (type === "command") {
     await fs.readdir(`${client.dirname}/commands/`, (err, files) => {
-      console.log(`Commands laden...`);
+      console.log(chalk.bold.underline("\nCommands inladen..."));
       let ii = 0;
       if (err) throw (err);
       files.forEach(file => {
@@ -11,7 +11,7 @@ module.exports.load = async (type, client) => {
           let props = require(`${client.dirname}/commands/${file}`);
           client.commands.set(props.help.name, props);
           ii++;
-          console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${props.help.name} is succesvol geladen!`);
+          console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
         } else {
           try {
             fs.readdir(`${client.dirname}/commands/${file}/`, (err, bestanden) => {
@@ -20,7 +20,7 @@ module.exports.load = async (type, client) => {
                 let props = require(`${client.dirname}/commands/${file}/${bestand}`);
                 client.commands.set(props.help.name, props);
                 ii++;
-                console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${props.help.name} is succesvol geladen!`);
+                console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
               })
             })
           } catch(err) {
@@ -32,12 +32,12 @@ module.exports.load = async (type, client) => {
   } else if (type === "event") {
     fs.readdir(`${client.dirname}/events/`, (err, files) => {
       if (err) return console.error(err);
-      console.log(`Events laden...`);
+      console.log(chalk.bold.underline("\nEvents inladen..."));
       let i = 0;
       files.forEach(file => {
         let eventFunction = require(`${client.dirname}/events/${file}`);
         let eventName = file.split(".")[0];
-        console.log(`   ${chalk.blue("EVENT")}: ${i + 1}: ${eventName} is succesvol geladen!`);
+        console.log(`   ${chalk.blue("EVENT")}: ${i + 1}: ${chalk.bold(eventName)} is succesvol geladen!`);
         if (eventFunction.config === undefined) return;
         if (eventFunction.config.enable === undefined) return;
         if (eventFunction.config.enable !== true) return;
@@ -48,12 +48,12 @@ module.exports.load = async (type, client) => {
   } else if (type === "process_event") {
     fs.readdir(`${client.dirname}/process_events/`, (err, files) => {
       if (err) return console.error(err);
-      console.log(`Process events laden...`);
+      console.log(chalk.bold.underline("\nProcess events inladen..."));
       let i = 0;
       files.forEach(file => {
         let processEventFunction = require(`${client.dirname}/process_events/${file}`);
         let processEventName = file.split(".")[0];
-        console.log(`   ${chalk.yellow("PROCESS_EVENT")}: ${i + 1}: ${processEventName} is succesvol geladen!`);
+        console.log(`   ${chalk.yellow("PROCESS_EVENT")}: ${i + 1}: ${chalk.bold(processEventName)} is succesvol geladen!`);
         if (processEventFunction.config === undefined) return;
         if (processEventFunction.config.enable === undefined) return;
         if (processEventFunction.config.enable !== true) return;
@@ -61,5 +61,34 @@ module.exports.load = async (type, client) => {
         process.on(processEventName, (...args) => processEventFunction.run(client, ...args));
       });
     });
+  } else if (type === "function") {
+    client.function = {};
+    await fs.readdir(`${client.dirname}/functions/`, (err, files) => {
+      console.log(chalk.bold.underline("\nFunctions inladen..."));
+      let i = 0;
+      if (err) throw (err);
+      files.forEach(file => {
+        if (file.endsWith(".js")) {
+          let props = require(`${client.dirname}/functions/${file}`);
+          client.function[props.help.name] = props;
+          i++;
+          console.log(`   ${chalk.magenta("FUNCTION")}: ${i}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
+        } else {
+          try {
+            fs.readdir(`${client.dirname}/functions/${file}/`, (err, bestanden) => {
+              if (err) throw (err);
+              bestanden.forEach(bestand => {
+                let props = require(`${client.dirname}/functions/${file}/${bestand}`);
+                client.function[props.help.name] = props;
+                i++;
+                console.log(`   ${chalk.magenta("FUNCTION")}: ${i}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
+              })
+            })
+          } catch(err) {
+            if (err) throw (err);
+          }
+        }
+      })
+    })
   } else throw "Kies uit COMMAND, EVENT of PROCESS_EVENT!";
 }

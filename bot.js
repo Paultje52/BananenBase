@@ -144,3 +144,8 @@ loader.load("event", client);
 
 //Als je een nodejs app runt, heb je ook process events, zoals 'exit'. Die worden er hier gebruikt!
 loader.load("process_event", client);
+
+//Je kan ook functies aanmaken die je overal kan gebruiken met 'client.FUNCTIENAAM.run(client)'!
+setTimeout(function() {
+  loader.load("function", client);
+}, 200);
