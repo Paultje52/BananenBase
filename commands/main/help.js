@@ -5,7 +5,6 @@ exports.run = async (client) => {
   let config = client.config;
   let message = client.message;
   let args = client.args;
-  console.log(client.function.getInI(client, "1"));
   if (!args[0]) {
     if (client.guild === true) {
       let prefix = data.get(`${message.guild.id}.prefix`);
