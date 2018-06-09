@@ -74,7 +74,7 @@ Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Functions) voor meer
 ### Configs
 ```json
 {
-  //Config tekst
+  "hier": "alle config dingen"
 }
 ```
 Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Configs) voor meer informatie van de configs!
