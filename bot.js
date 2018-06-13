@@ -4,124 +4,30 @@ let start = Date.now();
 
 //Nu gaan we de packages inladen!
 const Discord = require("discord.js"),
-      consoleModule = require("readline"),
+      consoleCommands = require("./consoleCommands.js"),
       loader = require("./custom_modules/loader"),
-      permChecker = require("./custom_modules/permChecker"),
       dataModule = require("./custom_modules/data");
 
 //Ook maken wij de discord client aan en maken we een command variable!
 const client = new Discord.Client({autoReconnect: true});
 client.commands = new Discord.Collection();
 
-//Nu maken wij de database aan!
-const data = new dataModule({path: __dirname});
-
 //En dan nu de variables in client, zodat de bot sneller is en alle variables worden meegenomen!
 client.queue = {};
-client.data = data;
+client.dataModule = dataModule;
 client.start = start;
+client.data = undefined;
 client.dirname = __dirname;
+client.restartLog = false;
+client.startType = "startup";
 client.guildPermission1 = [`425643727953068042`]; //Alle servers met server permission 1. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 client.guildPermission2 = []; //Alle servers met server permission 2. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 client.guildPermission3 = []; //Alle servers met server permission 3. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 client.guildPermission4 = []; //Alle servers met server permission 4. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 client.guildPermission5 = []; //Alle servers met server permission 5. Voorbeeld: [`ID1`, `ID2`, `ID3`]
 
-//Nu maken wij de console line in zodat je commands (zoals restart) kan doen!
-const consoleCommands = consoleModule.createInterface({input: process.stdin, output: process.stdout});
-consoleCommands.on('line', async (input) => {
-    let args = input.split(" ").slice(1);
-    let command = input.split(" ")[0];
-
-    if (command.toLowerCase() === "restart" || command.toLowerCase() === "rs") {
-      console.log("<---> Bot herstarten...");
-      client.start = Date.now();
-      client.destroy();
-      setTimeout(function(){
-        delete require.cache[require.resolve(`./config.json`)];
-        fs.readdir("./commands/", (err, files) => {
-          if (err) throw (err);
-          files.forEach(file => {
-            if (file.endsWith(".js")) {
-              delete require.cache[require.resolve(`./commands/${file}`)];
-            } else {
-              try {
-                fs.readdir(`./commands/${file}/`, (err, bestanden) => {
-                  if (err) throw (err);
-                  bestanden.forEach(bestand => {
-                    delete require.cache[require.resolve(`./commands/${file}/${bestand}`)];
-                  })
-                })
-              } catch(err) {
-                if (err) throw (err);
-              }
-            }
-          })
-        })
-        fs.readdir("./events/", (err, files) => {
-          if (err) throw (err);
-          files.forEach(file => {
-            if (file.endsWith(".js")) {
-              delete require.cache[require.resolve(`./events/${file}`)];
-            } else {
-              try {
-                fs.readdir(`./events/${file}/`, (err, bestanden) => {
-                  if (err) throw (err);
-                  bestanden.forEach(bestand => {
-                    delete require.cache[require.resolve(`./events/${file}/${bestand}`)];
-                  })
-                })
-              } catch(err) {
-                if (err) throw (err);
-              }
-            }
-          })
-        })
-        fs.readdir("./process_events/", (err, files) => {
-          if (err) throw (err);
-          files.forEach(file => {
-            if (file.endsWith(".js")) {
-              delete require.cache[require.resolve(`./process_events/${file}`)];
-            } else {
-              try {
-                fs.readdir(`./process_events/${file}/`, (err, bestanden) => {
-                  if (err) throw (err);
-                  bestanden.forEach(bestand => {
-                    delete require.cache[require.resolve(`./process_events/${file}/${bestand}`)];
-                  })
-                })
-              } catch(err) {
-                if (err) throw (err);
-              }
-            }
-          })
-        })
-        client.login(client.config.main.token);
-        console.log("<---> Bot herstart!")
-      }, Math.round(Math.random() * 5000 + 1));
-    } else if (command.toLowerCase() === "stop" || command.toLowerCase() === "st") {
-      await console.log("<---> Ik stop...");
-      process.exit();
-    } else if (command.toLowerCase() === "guilds" || command.toLowerCase() === "servers") {
-      if (client.guilds.size === 0) return console.log(`<---> Ik zit in geen enkele ${command}!`)
-      let guilds = "";
-      let guildcount = client.guilds.size;
-      let i = 0;
-      let servers = '\n';
-      await client.guilds.forEach(async (guild) => {
-          i++
-          await guild.channels.forEach(async (channel) => {
-              let invite = await channel.createInvite({maxUses: 1, maxAge: 0});
-              servers += `**${guild.name}**: ${invite}\n`;
-              return;
-          })
-          if (i === Number(guildcount)) {
-            console.log(`<---> ${servers}`);
-            return;
-          }
-      })
-    } else return console.log(`<---> ${chalk.red(command)} is geen geldig command, kies uit RESTART of STOP!`);
-});
+//We laden de console commands in!
+consoleCommands.run(client);
 
 //Nu laden wij de commands in!
 setTimeout(function() {

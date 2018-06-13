@@ -11,11 +11,11 @@ class BananenConfig {
             throw new Error('Er ging iets fout: Je moet wel de path naar de data.json opgeven!');
         }
 
-        if (!opts.configName) {
-            opts.configName = 'data.json'
+        if (!opts.name) {
+            opts.name = 'data.json'
         }
 
-        this.path = path.resolve(opts.path, opts.configName)
+        this.path = path.resolve(opts.path, opts.name)
         this.store = Object.assign({}, opts.defaults, this.store)
     }
 
