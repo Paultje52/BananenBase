@@ -3,7 +3,7 @@ console.log("Ik start op!");
 let start = Date.now();
 
 //Nu gaan we de packages inladen!
-const Discord = require("discord.js"),
+const Discord = require("discord.js")
       consoleCommands = require("./consoleCommands.js"),
       loader = require("./custom_modules/loader"),
       dataModule = require("./custom_modules/data");
@@ -11,6 +11,7 @@ const Discord = require("discord.js"),
 //Ook maken wij de discord client aan en maken we een command variable!
 const client = new Discord.Client({autoReconnect: true});
 client.commands = new Discord.Collection();
+client.functions = new Discord.Collection();
 
 //En dan nu de variables in client, zodat de bot sneller is en alle variables worden meegenomen!
 client.queue = {};

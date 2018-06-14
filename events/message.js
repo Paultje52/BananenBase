@@ -9,11 +9,11 @@ exports.run = async (client, message) => {
   let command = messageArray[0];
   let args = messageArray.slice(1);
 
-  if (client.guild === true && !command.toLowerCase().startsWith(client.data.get(`${message.guild.id}.prefix`))) return;
+  if (client.guild === true && !command.toLowerCase().startsWith(client.data.get(`prefix`))) return;
   if (client.guild === false && !command.toLowerCase().startsWith("!")) return;
 
   if (client.guild === true) {
-    let cmd = client.commands.get(command.slice(client.data.get(`${message.guild.id}.prefix`).length));
+    let cmd = client.commands.get(command.slice(client.data.get(`prefix`).length));
     if (cmd) {
       client.message = message;
       client.args = args;

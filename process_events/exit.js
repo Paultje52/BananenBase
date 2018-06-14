@@ -1,6 +1,6 @@
 exports.run = (client, error) => {
-  client.destroy;
   if (error) throw error;
+  client.destroy;
 }
 
 exports.config = {

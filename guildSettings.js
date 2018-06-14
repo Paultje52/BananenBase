@@ -2,7 +2,7 @@ exports.run = async (client, message) => {
   if (message.channel.type === "dm") {
     return false;
   } else {
-    const data = new client.dataModule({path: `${client.dirname}/guildSettings`, name: `guildconfig.${message.guild.id}.json`});
+    const data = new client.dataModule({path: `${client.dirname}/guildSettings`, name: `${message.guild.id}.json`});
     if (!data.get(`prefix`)) data.set(`prefix`, `!`);
     if (!data.get(`role.role1`)) data.set(`role.role1`, `rol1`);
     if (!data.get(`role.role2`)) data.set(`role.role2`, `rol2`);

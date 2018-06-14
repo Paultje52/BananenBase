@@ -72,6 +72,7 @@ module.exports.load = async (type, client) => {
         if (file.endsWith(".js")) {
           let props = require(`${client.dirname}/functions/${file}`);
           client.function[props.help.name] = props;
+          client.functions.set(props.help.name, props);
           i++;
           console.log(`   ${chalk.magenta("FUNCTION")}: ${i}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
         } else {
@@ -81,6 +82,7 @@ module.exports.load = async (type, client) => {
               bestanden.forEach(bestand => {
                 let props = require(`${client.dirname}/functions/${file}/${bestand}`);
                 client.function[props.help.name] = props;
+                client.functions.set(props.help.name, props);
                 i++;
                 console.log(`   ${chalk.magenta("FUNCTION")}: ${i}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
               })
@@ -97,6 +99,7 @@ module.exports.load = async (type, client) => {
       console.log(chalk.bold.underline("\nConfigs inladen..."));
       let i = 0;
       files.forEach(file => {
+        if (file.toLowerCase().startsWith("temp")) return;
         if (file.endsWith(".json")) {
           let props = new SRJ(`${client.dirname}/config/${file}/${bestand}`);
           props.on("updated", () => {console.log(`Config ${chalk.bold(bestand.split(".")[0])} is succesvol geupdate!`)});
@@ -107,6 +110,7 @@ module.exports.load = async (type, client) => {
           try {
             fs.readdir(`${client.dirname}/config/${file}/`, (err, bestanden) => {
               bestanden.forEach(bestand => {
+                if (file.toLowerCase().startsWith("temp")) return;
                 let props = new SRJ(`${client.dirname}/config/${file}/${bestand}`);
                 props.on("updated", () => {console.log(`Config ${chalk.bold(bestand.split(".")[0])} is succesvol geupdate!`)});
                 client.config[bestand.split(".")[0]] = props;

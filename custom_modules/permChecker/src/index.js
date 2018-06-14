@@ -4,7 +4,7 @@ module.exports.check = (type, client) => {
     let message = client.messsage;
     let args = client.args;
     let cmd = client.cmd;
-    let config = client.config;
+    let config = client.config.main;
     let data = client.data;
     let dirname = client.dirname;
     try {
@@ -40,11 +40,12 @@ module.exports.check = (type, client) => {
       if (guildPermission === 3 && !client.guildPermission4.includes(client.message.guild.id) && !client.guildPermission5.includes(client.message.guild.id) && !client.guildPermission3.includes(client.message.guild.id)) return;
       if (guildPermission === 4 && !client.guildPermission4.includes(client.message.guild.id) && !client.guildPermission5.includes(client.message.guild.id)) return;
       if (guildPermission === 5 && !client.guildPermission5.includes(client.message.guild.id)) return;
-      if (userPermission === 1 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role1`)].includes(r.name))) return;
-      if (userPermission === 2 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role2`)].includes(r.name))) return;
-      if (userPermission === 3 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role3`)].includes(r.name))) return;
-      if (userPermission === 4 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role4`)].includes(r.name))) return;
-      if (userPermission === 5 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role5`)].includes(r.name))) return;
+      if (userPermission === 1 && !client.message.member.roles.some(r => [data.get(`role.role1`)].includes(r.name))) return client.message.reply(`je moet de rol **${data.get(`role.role1`)}** hebben om het command **${cmd.help.name}** uit te voeren!`);
+      if (userPermission === 2 && !client.message.member.roles.some(r => [data.get(`role.role2`)].includes(r.name))) return client.message.reply(`je moet de rol **${data.get(`role.role2`)}** hebben om het command **${cmd.help.name}** uit te voeren!`);
+      if (userPermission === 3 && !client.message.member.roles.some(r => [data.get(`role.role3`)].includes(r.name))) return client.message.reply(`je moet de rol **${data.get(`role.role3`)}** hebben om het command **${cmd.help.name}** uit te voeren!`);
+      if (userPermission === 4 && !client.message.member.roles.some(r => [data.get(`role.role4`)].includes(r.name))) return client.message.reply(`je moet de rol **${data.get(`role.role4`)}** hebben om het command **${cmd.help.name}** uit te voeren!`);
+      if (userPermission === 5 && !client.message.member.roles.some(r => [data.get(`role.role5`)].includes(r.name))) return client.message.reply(`je moet de rol **${data.get(`role.role5`)}** hebben om het command **${cmd.help.name}** uit te voeren!`);
+      if (userPermission === 6 && !config.ownerId.includes(client.message.author.id)) return;
       command.run(client);
     } else {
       command.run(client);
@@ -53,7 +54,7 @@ module.exports.check = (type, client) => {
     let message = client.messsage;
     let args = client.args;
     let cmd = client.cmd;
-    let config = client.config;
+    let config = client.config.main;
     let data = client.data;
     let dirname = client.dirname;
     try {
@@ -81,11 +82,12 @@ module.exports.check = (type, client) => {
       if (guildPermission === 3 && !client.guildPermission4.includes(client.message.guild.id) && !client.guildPermission5.includes(client.message.guild.id) && !client.guildPermission3.includes(client.message.guild.id)) return false;
       if (guildPermission === 4 && !client.guildPermission4.includes(client.message.guild.id) && !client.guildPermission5.includes(client.message.guild.id)) return false;
       if (guildPermission === 5 && !client.guildPermission5.includes(client.message.guild.id)) return false;
-      if (userPermission === 1 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role1`)].includes(r.name))) return false;
-      if (userPermission === 2 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role2`)].includes(r.name))) return false;
-      if (userPermission === 3 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role3`)].includes(r.name))) return false;
-      if (userPermission === 4 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role4`)].includes(r.name))) return false;
-      if (userPermission === 5 && client.message.author.id !== client.message.guild.owner.id && !client.message.member.roles.some(r => [data.get(`role.role5`)].includes(r.name))) return false;
+      if (userPermission === 1 && !client.message.member.roles.some(r => [data.get(`role.role1`)].includes(r.name))) return false;
+      if (userPermission === 2 && !client.message.member.roles.some(r => [data.get(`role.role2`)].includes(r.name))) return false;
+      if (userPermission === 3 && !client.message.member.roles.some(r => [data.get(`role.role3`)].includes(r.name))) return false;
+      if (userPermission === 4 && !client.message.member.roles.some(r => [data.get(`role.role4`)].includes(r.name))) return false;
+      if (userPermission === 5 && !client.message.member.roles.some(r => [data.get(`role.role5`)].includes(r.name))) return false;
+      if (userPermission === 6 && !config.ownerId.includes(client.message.author.id)) return;
       return true;
     } else return true;
   } else throw chalk.red(`Type ${type} is niet geldig! Kies uit HELP of RUN!`);

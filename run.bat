@@ -1,5 +1,7 @@
 @ECHO off
 color 0f
 cls
+
+:start
 node bot.js
-pause
+goto start
