@@ -5,21 +5,36 @@ exports.run = async (client) => {
   let config = client.config;
   let message = client.message;
   let args = client.args;
+  let capitalizeFirstLetter = client.function.capitalizeFirstLetter;
+  let cmdData = {};
+  let cmdName = {};
+  let cmd = [];
   if (!args[0]) {
     if (client.guild === true) {
-      let prefix = data.get(`${message.guild.id}.prefix`);
+      let prefix = data.get(`prefix`);
       let embed = new Discord.RichEmbed()
         .setTitle("Help")
         .setColor("#00ff00")
-      let cmds = '';
       await client.commands.forEach(async (command) => {
         client.message = message;
         client.cmd = command;
         let value = await permChecker.check("help", client);
         if (value !== true) return;
-        cmds += `\`${prefix}${command.help.usage}\` - **${command.help.description}**\n`
+        cmdName[command.help.category] = command.help.category;
+        if (!cmdData[command.help.category]) {
+          cmdData[command.help.category] = `\`${prefix}${command.help.usage}\`\n`;
+          cmd.push(command.help.category);
+        } else {
+          cmdData[command.help.category] += `\`${prefix}${command.help.usage}\`\n`;
+        }
       });
-      embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht\n\n${cmds}`);
+      embed.setDescription(`**<>** Verplicht\n**[]** Niet verplicht`);
+      let i;
+      for (i = 0; i < Object.keys(cmdData).length; i++) {
+        let name = await capitalizeFirstLetter.run(client, cmd[i]);
+        let commands = await capitalizeFirstLetter.run(client, cmdData[cmd[i]]);
+        embed.addField(name, commands, true);
+      }
       message.channel.send(embed);
     } else {
       let prefix = "!";
@@ -39,7 +54,7 @@ exports.run = async (client) => {
     }
   } else {
     if (client.guild === true) {
-      let prefix = data.get(`${message.guild.id}.prefix`);
+      let prefix = data.get(`prefix`);
       let embed = new Discord.RichEmbed()
         .setTitle(`Help: Categorie ${args[0]}`)
         .setColor("#00ff00")
@@ -54,7 +69,7 @@ exports.run = async (client) => {
       if (cmds === '') {
         try {
           if (client.guild === true) {
-            let prefix = data.get(`${message.guild.id}.prefix`);
+            let prefix = data.get(`prefix`);
             let cmd = client.commands.get(args[0]);
             let value = await permChecker.check("help", client);
             if (value !== true) return;
@@ -97,7 +112,7 @@ exports.run = async (client) => {
       if (cmds === '') {
         try {
           if (client.guild === true) {
-            let prefix = data.get(`${message.guild.id}.prefix`);
+            let prefix = data.get(`prefix`);
             let cmd = client.commands.get(args[0]);
             let value = await permChecker.check("help", client);
             if (value !== true) return;
