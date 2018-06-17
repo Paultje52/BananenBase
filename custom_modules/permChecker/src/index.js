@@ -10,10 +10,12 @@ module.exports.check = (type, client) => {
     try {
       const command = require(`${dirname}/commands/${cmd.help.category}/${cmd.help.name}.js`);
     } catch(err) {
+      console.log(err);
       try {
         const command = require(`${dirname}/commands/${cmd.help.name}.js`);
-      } catch(err) {
-        if (err) throw chalk.red("Command niet kunnen vinden!");
+      } catch(err2) {
+        console.log(err2);
+        if (err2) throw chalk.red("Command niet kunnen vinden!");
       }
       const command = require(`${dirname}/commands/${cmd.help.name}.js`);
     }

@@ -11,6 +11,7 @@ const Discord = require("discord.js")
 //Ook maken wij de discord client aan en maken we een command variable!
 const client = new Discord.Client({autoReconnect: true});
 client.commands = new Discord.Collection();
+client.subCommands = new Discord.Collection();
 client.functions = new Discord.Collection();
 
 //En dan nu de variables in client, zodat de bot sneller is en alle variables worden meegenomen!

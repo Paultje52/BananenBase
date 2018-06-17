@@ -23,9 +23,10 @@ exports.run = async (client) => {
 }
 exports.help = {
   name: "eval",
-  usage: "eval [code]",
+  usage: "eval <code>",
   description: "Voer nodejs commands uit met de bot!",
-  category: "botOwner"
+  category: "botOwner",
+  extraCommands: ["e"]
 }
 exports.config = {
   enable: true,

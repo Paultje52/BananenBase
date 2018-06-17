@@ -11,6 +11,10 @@ module.exports.load = async (type, client) => {
         if (file.endsWith(".js")) {
           let props = require(`${client.dirname}/commands/${file}`);
           client.commands.set(props.help.name, props);
+          let i;
+          for (i = 0; i < props.help.extraCommands.length; i++) {
+            client.subCommands.set(props.help.extraCommands[i], props);
+          }
           ii++;
           console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
         } else {
@@ -20,6 +24,10 @@ module.exports.load = async (type, client) => {
               bestanden.forEach(bestand => {
                 let props = require(`${client.dirname}/commands/${file}/${bestand}`);
                 client.commands.set(props.help.name, props);
+                let i;
+                for (i = 0; i < props.help.extraCommands.length; i++) {
+                  client.subCommands.set(props.help.extraCommands[i], props);
+                }
                 ii++;
                 console.log(`   ${chalk.green("COMMAND")}: ${ii}: ${chalk.bold(props.help.name)} is succesvol geladen!`);
               })

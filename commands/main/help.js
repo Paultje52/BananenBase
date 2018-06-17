@@ -144,9 +144,10 @@ exports.run = async (client) => {
 }
 exports.help = {
   name: "help",
-  usage: "help [command]",
+  usage: "help <command>",
   description: "Krijg hulp met de bot!",
-  category: "main"
+  category: "main",
+  extraCommands: ["h"]
 }
 exports.config = {
   enable: true,

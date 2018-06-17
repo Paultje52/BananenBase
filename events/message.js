@@ -10,22 +10,26 @@ exports.run = async (client, message) => {
   let args = messageArray.slice(1);
 
   if (client.guild === true && !command.toLowerCase().startsWith(client.data.get(`prefix`))) return;
-  if (client.guild === false && !command.toLowerCase().startsWith("!")) return;
+  if (client.guild === false && !command.toLowerCase().startsWith(client.config.main.prefix)) return;
 
   if (client.guild === true) {
-    let cmd = client.commands.get(command.slice(client.data.get(`prefix`).length));
-    if (cmd) {
+    let cmd1 = client.commands.get(command.slice(client.data.get(`prefix`).length));
+    let cmd2 = client.subCommands.get(command.slice(client.data.get(`prefix`).length));
+    if (cmd1 || cmd2) {
       client.message = message;
       client.args = args;
-      client.cmd = cmd;
+      client.cmd = cmd1;
+      if (client.cmd === undefined) client.cmd = cmd2;
       permChecker.check("run", client);
     }
   } else {
-    let cmd = client.commands.get(command.slice(1));
-    if (cmd) {
+    let cmd1 = client.commands.get(command.slice(client.config.main.prefix));
+    let cmd2 = client.subCommands.get(command.slice(client.config.main.prefix));
+    if (cmd1 || cmd2) {
       client.message = message;
       client.args = args;
-      client.cmd = cmd;
+      client.cmd = cmd1;
+      if (client.cmd === undefined) client.cmd = cmd2;
       permChecker.check("run", client);
     }
   }
