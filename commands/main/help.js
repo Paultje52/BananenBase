@@ -62,7 +62,7 @@ exports.help = {
   usage: "help <command>",
   description: "Krijg hulp met de bot!",
   category: "main",
-  extraCommands: ["h", "he", "hel", "?", "vraag", "v"]
+  extraCommands: ["?"]
 }
 exports.config = {
   enable: true,
