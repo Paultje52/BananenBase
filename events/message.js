@@ -1,3 +1,6 @@
+const moment = require('moment');
+const chalk = require('chalk');
+
 exports.run = async (client, message) => {
   const permChecker = require(`${client.dirname}/custom_modules/permChecker`);
   if (message.author.bot) return;
@@ -20,6 +23,8 @@ exports.run = async (client, message) => {
       client.args = args;
       client.cmd = cmd1;
       if (client.cmd === undefined) client.cmd = cmd2;
+      let cmd = client.cmd;
+      console.log(`[${chalk.green(moment().format("HH:mm:ss MM-DD-YYYY"))}]: Command ${chalk.blue(cmd.help.name)} met ${chalk.magenta(args.length)} (${chalk.red(args.join(", "))}) argumenten uitgevoerd door ${chalk.yellow(message.author.username)} in ${chalk.cyan(message.guild.name)}`);
       permChecker.check("run", client);
     }
   } else {
@@ -30,6 +35,7 @@ exports.run = async (client, message) => {
       client.args = args;
       client.cmd = cmd1;
       if (client.cmd === undefined) client.cmd = cmd2;
+      console.log(`[${chalk.green(moment().format("HH:mm:ss MM-DD-YYYY"))}]: Command ${chalk.blue(cmd.help.name)} uitgevoerd door ${chalk.yellow(message.author.username)} in ${chalk.cyan("pm")}`);
       permChecker.check("run", client);
     }
   }
