@@ -15,15 +15,26 @@ Welkom op de github van de BananenBase! De BananenBase is de discord.js framewor
 ## Voorbeelden
 ### Commands
 ```js
-exports.run = async (client, message, args) => {
+const Discord = require("discord.js");
+exports.run = async (client) => {
+  let data = client.data;
+  let config = client.config;
+  let message = client.message;
+  let args = client.args;
   //Zet hier neer wat er moet gebeuren als het command wordt uitgevoerd!
 }
 exports.help = {
   name: "NAAM",
   usage: "GEBRUIK",
   description: "BESCHRIJVING",
-  category: "CATEGORIE",
-  enable: true
+  category: "MAP",
+  extraCommands: ["EXTRA", "COMMANDS"]
+}
+exports.config = {
+  enable: true,
+  guildPermission: 0,
+  userPermission: 0,
+  guildOnly: false
 }
 ```
 Druk [hier](https://github.com/Paul52Games/BananenBase/wiki/Commands) voor meer informatie van commands!
