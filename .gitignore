@@ -1,0 +1,11 @@
+# De node modules
+node_modules
+
+
+# De config (zodat de token niet geleakt wordt).
+# Kijk de github wiki onder het kopje 'setup' en dan 'config' voor de config!
+config.json
+
+
+# De database
+data
