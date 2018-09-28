@@ -1,23 +1,39 @@
 {
   "name": "bananenbase",
-  "version": "1.1.3",
-  "description": "De base van de BananenBot, public voor IEDEREEN!",
+  "version": "2.0.0",
+  "description": "De base van de BananenBot",
   "main": "bot.js",
   "dependencies": {
-    "moment": "^2.22.2"
+    "better-sqlite-pool": "^0.1.2",
+    "enmap": "^4.3.0",
+    "discord.js": "^11.4.2",
+    "fsscanner": "^1.0.23"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node bot.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Paul52Games/BananenBase.git"
   },
   "keywords": [
-    "discord"
+    "discord",
+    "discord-js",
+    "discord-api",
+    "discordjs",
+    "discordjbot",
+    "discordapp",
+    "base",
+    "discord-js-bot",
+    "discord-js-example",
+    "discord-js-base",
+    "discord-js-framework",
+    "nodejs",
+    "framework",
+    "nodejs-framework"
   ],
-  "author": "discord-js",
+  "author": "BananenBot",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Paul52Games/BananenBase/issues"

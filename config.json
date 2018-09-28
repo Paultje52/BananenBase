@@ -1,0 +1,26 @@
+{
+   "commandConfig": {
+     "basicPermissions": {
+       "me": ["READ_MESSAGES", "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "EXTERNAL_EMOJIS"],
+       "user": ["READ_MESSAGES", "SEND_MESSAGES"]
+     },
+     "levels": {
+       "server": [
+         {"level": ["425643727953068042", "352777899738267649"]},
+         {"level": ["425643727953068042"]}
+       ],
+       "user": [
+         "dj",
+         "moderator",
+         "admin"
+       ]
+     }
+   },
+   "prefix": "!",
+   "token": "NDA3NTM5NzgyOTU3MjY4OTky.DoeZsA.51QK-8RgcHvdSvJ1NxVXLQ8yC9o",
+   "botOwner": ["327462385361092621"],
+   "igrone": {
+     "pm": true,
+     "bot": true
+   }
+}

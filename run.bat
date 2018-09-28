@@ -1,7 +1,5 @@
-@ECHO off
-color 0f
-cls
+goto start
 
 :start
-node bot.js
+node bot
 goto start
