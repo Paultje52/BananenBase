@@ -46,7 +46,7 @@ module.exports = class Embed {
   }
   // Footer
   setFooter(text, icon) {
-    else this.embed.setFooter(text, icon);
+    this.embed.setFooter(text, icon);
     return this.embed;
   }
   // Image
