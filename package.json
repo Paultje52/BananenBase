@@ -1,13 +1,13 @@
 {
   "name": "bananenbase",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "De base van de BananenBot",
   "main": "bot.js",
   "dependencies": {
-    "better-sqlite-pool": "^0.1.2",
-    "enmap": "^4.3.0",
+    "chalk": "^2.4.2",
     "discord.js": "^11.4.2",
-    "fsscanner": "^1.0.23"
+    "fsscanner": "^1.0.23",
+    "moment": "^2.24.0"
   },
   "devDependencies": {},
   "scripts": {
