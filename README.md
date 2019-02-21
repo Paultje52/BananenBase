@@ -34,9 +34,9 @@ new BananenBase({
     code: `${process.cwd()}/database.sqlite`
   },
   permissionLevels: [
-    (message, args, client) => { // Permission level 0
+    (client, message, args) => { // Permission level 0
       return true;
-    }, (message, args, client) => { // Permission level 1
+    }, (client, message, args) => { // Permission level 1
       if (client.config.botOwners.includes(message.author.id)) return true; // A bot owner
       else return false; // No bot owner
     }
@@ -86,7 +86,7 @@ module.exports = class ping extends command {
         me: ["MANAGE_MESSAGES"], // All the permissions that the bots needs to have
         user: ["MANAGE_MESSAGES"] // All the permissions that the user needs to have
       },
-      func: (message, args, client) => { // Extra check
+      func: (client, message, args) => { // Extra check
         return true;
       }
     });
