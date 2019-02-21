@@ -5,7 +5,7 @@ The BananenBase is a NodeJS framework for making discord bots. You can use it ve
 
 ## Features
 - Easy to use: Only one line of code required to setup and load everything
-- Fast: Everything is optimised, so you can use a fast Discord bot
+- Fast: Everything is optimised, so you can make a fast Discord bot
 - Easy databases: Auto install databases and use them with a simple get/set
 - Custom settings:
   - Guild - Every guild
@@ -91,7 +91,7 @@ module.exports = class ping extends command {
       }
     });
   }
-  
+
   async run(message, args) {
     let start = Date.now();
     let msg = await message.channel.send("Pinging...");

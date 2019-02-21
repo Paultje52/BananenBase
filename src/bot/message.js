@@ -56,13 +56,14 @@ module.exports = async (client, message) => {
 
     // A custom embed
     message.embed = function() {
-      if (this.client.settings.embed) {
+      if (message.guild.settings.embed) {
         let embed = new discord.RichEmbed();
+        if (message.guild.settings.embed.footerImage === "BOTAVATAR") message.guild.settings.embed.footerImage = `https://cdn.discordapp.com/avatars/${this.client.user.id}/${this.client.user.avatar}.png`;
         if (message.guild.settings.embed.color) embed.setColor(message.guild.settings.embed.color);
         if (message.guild.settings.embed.thumbnail) embed.setThumbnail(message.guild.settings.embed.thumbnail);
         if (message.guild.settings.embed.footerText && !message.guild.settings.embed.footerImage) embed.setFooter(message.guild.settings.embed.footerText);
-        else if (!message.guild.guild.embed.footerText && message.guild.settings.embed.footerImage) embed.setFooter("", messahe.guild.settings.embed.footerImage);
-        else if (message.guild.settings.embed.footerText) embed.setFooter(message.guild.settings.embed.footerText);
+        else if (!message.guild.settings.embed.footerText && message.guild.settings.embed.footerImage) embed.setFooter("", message.guild.settings.embed.footerImage);
+        else if (message.guild.settings.embed.footerText && message.guild.settings.embed.footerImage) embed.setFooter(message.guild.settings.embed.footerText, message.guild.settings.embed.footerImage);
         if (message.guild.settings.embed.time) embed.setTimestamp();
         if (message.guild.settings.embed.url) embed.setURL(message.guild.settings.embed.url);
         return embed;
