@@ -68,9 +68,9 @@ module.exports = function(app, client) {
 
 ### commands/util/ping.js
 ```js
-const commands = require("bananenbase").commands;
+const command = require("bananenbase").command;
 
-module.exports = class ping extends commands {
+module.exports = class ping extends command {
   constructor(client) {
     super(client, {
       name: "ping", // The name of the command - The only thing that is required.
@@ -95,6 +95,6 @@ module.exports = class ping extends commands {
   async run(message, args) {
     let start = Date.now();
     let msg = await message.channel.send("Pinging...");
-    msg.edit(`:ping_pong: ${Date.now()-start}`);
+    msg.edit(`:ping_pong: ${Date.now()-start}ms`);
   }
 }
