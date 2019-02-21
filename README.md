@@ -91,4 +91,10 @@ module.exports = class ping extends commands {
       }
     });
   }
+  
+  async run(message, args) {
+    let start = Date.now();
+    let msg = await message.channel.send("Pinging...");
+    msg.edit(`:ping_pong: ${Date.now()-start}`);
+  }
 }
