@@ -253,7 +253,10 @@ exports = module.exports = class BananenBase {
                   res.sendDiscordLogin = (options) => {
                     if (!options) return error("No options for the send discord login!");
                     if (!options.clientID || !options.redirect) return error("Invalid options object!");
-                    options.scope = ["identify", "email", "guilds"];
+                    if (!options.scope) options.scope = [];
+                    ["identify", "email", "guilds"].forEach(thing => {
+                      if (!options.scope.includes(thing)) options.scope.push(thing);
+                    });
                     return res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${options.clientID}&redirect_uri=${encodeURIComponent(options.redirect)}&response_type=code&scope=${options.scope.join("%20")}`);
                   }
                   res.handleDiscordLogin = (options) => {
@@ -278,6 +281,7 @@ exports = module.exports = class BananenBase {
                       packages.request({url: "http://discordapp.com/api/users/@me", json: true, auth: {bearer: json.access_token}}, (err, response, body) => {
                         if (err) return reject(err);
                         packages.tmp = body;
+                        packages.tmp.accesToken = json.access_token;
                         packages.request({url: "http://discordapp.com/api/users/@me/guilds", json: true, auth: {bearer: json.access_token}}, (err, response, b) => {
                           if (err) return reject(err);
                           packages.tmp.guilds = b;
