@@ -1,8 +1,8 @@
 {
   "name": "bananenbase",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "De base van de BananenBot",
-  "main": "bot.js",
+  "main": "src/index.js",
   "dependencies": {
     "chalk": "^2.4.2",
     "discord.js": "^11.4.2",
