@@ -98,6 +98,11 @@ module.exports = async (client, message) => {
   this.cmd = this.client.commands.get(this.command) || this.client.subCommands.get(this.command);
   if (!this.cmd) return;
 
+  // Checking if the channel is active with something
+  let activeChannels = await this.client.db.get("activeChannels");
+  if (!activeChannels) activeChannels = [];
+  if (activeChannels.includes(message.channel.id)) return message.react("❌");
+
   // Checking command permissions
   this.cmdPermission = await this.cmd.check(this.client, message, this.args, true);
   if (!this.cmdPermission) return;
