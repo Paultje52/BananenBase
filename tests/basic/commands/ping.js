@@ -14,4 +14,8 @@ module.exports = class ping extends command {
     let msg = await message.channel.send("Pinging...");
     msg.edit(`:ping_pong: ${Date.now()-start}ms`);
   }
+
+  runInPM(message) { // When the command is runned in PM
+    message.channel.send("Hello PM!");
+  }
 }
