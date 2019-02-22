@@ -5,6 +5,18 @@ const discord = require("discord.js");
 module.exports = async (client, message) => {
   message.embed = () => {return new discord.RichEmbed()};
 
+  if (client.settings) {
+    // Database loading: User settings
+    message.author.dbId = `author-${message.author.id}`;
+    message.author.settings = await client.db.get(message.author.dbId);
+    if (!message.author.settings) message.author.settings = client.config.authorSettings;
+    message.author.updateDB = async function() {
+      await client.db.set(message.author.dbId, message.author.settings);
+      return message.author.settings;
+    }
+    message.author.updateDB();
+  }
+
   let args;
   let command;
   if (client.pmPrefix) {

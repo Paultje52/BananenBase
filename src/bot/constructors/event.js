@@ -1,14 +1,10 @@
-const chalk = require("chalk");
-
-module.exports = class BananenBase_Event {
+module.exports = exports = class BananenBase_Event {
   constructor(client, object) {
     this.client = client;
     this.enabled = object.enabled;
     if (typeof this.enabled !== "boolean") this.enabled = true;
     this.name = object.name;
   }
-
-  async run(...args) {
-    return await this.t.run(...args);
-  }
 }
+
+exports.event = require("./event/event.js");

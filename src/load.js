@@ -5,16 +5,19 @@ const fs = require("fs");
 
 // Exports
 module.exports = function(t) {
+  t.client.commands = new Map(); // Creates the commands map
+  t.client.subCommands = new Map(); // Creates the subCommands map
   if (fs.existsSync(`${process.cwd()}\\commands`)) { // If the commands folder exists
-    t.client.commands = new Map(); // Creates the commands map
-    t.client.subCommands = new Map(); // Creates the subCommands map
-
     fsscanner.scan(`${process.cwd()}\\commands`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
       if (err) throw err;
       if (!results || results.length === 0) return;
       results.forEach(result => {
         let c = require(result);
-        c = new c(t.client);
+        try {
+          c = new c(t.client);
+        } catch(e) {
+          c.setClient(t.client);
+        }
         if (!c.enabled) return;
         c.help.dir = result;
         t.client.commands.set(c.help.name, c);
@@ -33,27 +36,16 @@ module.exports = function(t) {
       if (!results || results.length === 0) return;
       results.forEach(result => {
         let c = require(result);
-        c = new c(t.client);
+        try {
+          c = new c(t.client);
+        } catch(e) {
+          c.setClient(t.client);
+        }
         if (!c.enabled) return;
         c.dir = result;
         t.client.on(c.name, (...args) => c.run(...args));
       });
       console.info(`${chalk.green(results.length)} event(s) loaded!`);
-    });
-  }
-
-  if (fs.existsSync(`${process.cwd()}\\functions`)) { // If the functions folder exists
-    fsscanner.scan(`${process.cwd()}\\functions`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
-      if (err) throw err;
-      if (!results || results.length === 0) return;
-      results.forEach(result => {
-        let c = require(result);
-        c = new c(t.client);
-        if (!c.enabled) return;
-        c.dir = result;
-        t.client[c.name] = c.run;
-      });
-      console.info(`${chalk.green(results.length)} function(s) loaded!`);
     });
   }
 
@@ -63,7 +55,11 @@ module.exports = function(t) {
       if (!results || results.length === 0) return;
       results.forEach(result => {
         let c = require(result);
-        c = new c(t.client);
+        try {
+          c = new c(t.client);
+        } catch(e) {
+          c.setClient(t.client);
+        }
         if (!c.enabled) return;
         c.dir = result;
         process.on(c.name, (...args) => c.run(...args));

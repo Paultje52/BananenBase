@@ -21,6 +21,7 @@ The BananenBase is a NodeJS framework for making discord bots. You can use it ve
 - Moment - Time logs
 
 ## Examples
+Read more examples [here](/tests).
 
 ### Index.js
 ```js

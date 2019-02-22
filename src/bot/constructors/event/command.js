@@ -1,8 +1,9 @@
-const chalk = require("chalk");
+const events = require("events");
 
-module.exports = exports = class BananenBase_Command {
-  constructor(client, help, check = {}) {
-    this.client = client;
+module.exports = class BananenBase_Event_Command extends events {
+  constructor(help, check = {}) {
+    super();
+
     this.help = help;
 
     if (typeof this.help.enabled !== "boolean") this.enabled = true;
@@ -22,6 +23,17 @@ module.exports = exports = class BananenBase_Command {
     if (!check.permissions.user) check.permissions.user = [];
     this.permissions = check.permissions;
   }
-}
 
-exports.event = require("./event/command.js");
+  setClient(client) {
+    this.client = client;
+  }
+
+  run(message, args, client) {
+    this.emit("run", message, args, client);
+  }
+
+  runInPM(message, args, client) {
+    if (this._events.runInPM) this.emit("runInPM", message, args, client);
+    else this.emit("run", message, args, client);
+  }
+}

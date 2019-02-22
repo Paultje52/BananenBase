@@ -50,7 +50,7 @@ exports = module.exports = class BananenBase {
     else if (typeof options.consoleFunctions === "undefined") this.consoleFunctions = true;
     else return error("Invaled type for console functions!");
 
-    if (!options.permissionLevels) this.botConfig.permissionLevels = [];
+    if (!options.permissionLevels) this.botConfig.permissionLevels = [() => {return true}];
     else this.botConfig.permissionLevels = options.permissionLevels;
     if (typeof this.botConfig.permissionLevels === "string") this.botConfig.permissionLevels = require(`${process.cwd()}/${this.botConfig.permissionLevels}`);
 
@@ -201,7 +201,6 @@ exports = module.exports = class BananenBase {
         this.client.activeCommands = this.activeCommands;
         this.client.ignore = this.ignore;
 
-        if (this.mysqlDatabase) this.client.db.query = util.promisify(this.database.query);
         delete this.token;
         load(this);
 
@@ -312,5 +311,4 @@ exports = module.exports = class BananenBase {
 // Exports the event+command file
 exports.event = require("./bot/constructors/event.js");
 exports.command = require("./bot/constructors/command.js");
-exports.processEvent = require("./bot/constructors/processEvent.js");
-exports.function = require("./bot/constructors/function.js");
+exports.process_event = require("./bot/constructors/processEvent.js");
