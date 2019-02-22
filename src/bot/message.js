@@ -104,7 +104,8 @@ module.exports = async (client, message) => {
 
   // CommandLevel
   this.cmdLevelCheck = this.client.config.permissionLevels[this.cmd.permLevel];
-  if (this.cmdLevelCheck) await this.cmdLevelCheck(this.client, message, this.args);
+  if (this.cmdLevelCheck)this.cmdLevelCheck = await this.cmdLevelCheck(this.client, message, this.args);
+  else this.cmdLevelCheck = false;
   if (!this.cmdLevelCheck) return message.channel.send(message.embed().setTitle("No permission!").setDescription(`The **${this.cmd.help.name}** command requires permission level **${this.cmd.permLevel}**, but you don't have it!`));
 
   // User permissions
