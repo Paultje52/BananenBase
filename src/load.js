@@ -7,8 +7,8 @@ const fs = require("fs");
 module.exports = function(t) {
   t.client.commands = new Map(); // Creates the commands map
   t.client.subCommands = new Map(); // Creates the subCommands map
-  if (fs.existsSync(`${process.cwd()}\\commands`)) { // If the commands folder exists
-    fsscanner.scan(`${process.cwd()}\\commands`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
+  if (fs.existsSync(`${process.cwd()}/commands`)) { // If the commands folder exists
+    fsscanner.scan(`${process.cwd()}/commands`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
       if (err) throw err;
       if (!results || results.length === 0) return;
       results.forEach(result => {
@@ -30,8 +30,8 @@ module.exports = function(t) {
     });
   }
 
-  if (fs.existsSync(`${process.cwd()}\\events`)) { // If the events folder exists
-    fsscanner.scan(`${process.cwd()}\\events`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
+  if (fs.existsSync(`${process.cwd()}/events`)) { // If the events folder exists
+    fsscanner.scan(`${process.cwd()}/events`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
       if (err) throw err;
       if (!results || results.length === 0) return;
       results.forEach(result => {
@@ -49,8 +49,8 @@ module.exports = function(t) {
     });
   }
 
-  if (fs.existsSync(`${process.cwd()}\\process_events`)) { // If the process events folder exists
-    fsscanner.scan(`${process.cwd()}\\process_events`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
+  if (fs.existsSync(`${process.cwd()}/process_events`)) { // If the process events folder exists
+    fsscanner.scan(`${process.cwd()}/process_events`, [fsscanner.criteria.pattern(".js"), fsscanner.criteria.type("F")], (err, results) => { // Search for commands
       if (err) throw err;
       if (!results || results.length === 0) return;
       results.forEach(result => {
