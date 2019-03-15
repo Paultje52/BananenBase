@@ -2,7 +2,7 @@
 const discord = require("discord.js");
 
 // No guilds message handler
-const noGuildHandler = require("./message_no_guild.js");
+const noGuildHandler = require("./nl_message_no_guild.js");
 
 // The export function
 module.exports = async (client, message) => {
@@ -10,7 +10,7 @@ module.exports = async (client, message) => {
   // Error
   message.error = function(err) {
     message.channel.send(new discord.RichEmbed()
-      .setTitle("Something whent wrong!")
+      .setTitle("Er ging iets fout!")
       .setColor("#ff0000")
       .setDescription(err)
     );
@@ -112,9 +112,9 @@ module.exports = async (client, message) => {
   if (this.cmdLevelCheck)this.cmdLevelCheck = await this.cmdLevelCheck(this.client, message, this.args);
   else this.cmdLevelCheck = false;
   if (!this.cmdLevelCheck) return message.channel.send(message.embed()
-    .setTitle("No permission!")
+    .setTitle("Geen permissie!")
     .setColor("#ff0000")
-    .setDescription(`The **${this.cmd.help.name}** command requires permission level **${this.cmd.permLevel}**, but you don't have it!`)
+    .setDescription(`Het commando **${this.cmd.help.name}** heeft permissie level **${this.cmd.permLevel}** nodig, en die heb jij niet!`)
   );
 
   // User permissions
@@ -126,9 +126,9 @@ module.exports = async (client, message) => {
   });
   if (this.missing.length !== 0) {
     return message.channel.send(message.embed()
-      .setTitle("Not every permission!")
+      .setTitle("Geen permissie!")
       .setColor("#ff0000")
-      .setDescription(`You are missing those permissions:\n- **${this.missing.join("**\n- **")}**`)
+      .setDescription(`Je mist de volgende permissies:\n- **${this.missing.join("**\n- **")}**`)
     );
   }
 
@@ -142,14 +142,14 @@ module.exports = async (client, message) => {
   });
   if (this.missing.length !== 0) {
     return message.channel.send(message.embed()
-      .setTitle("Not every permission!")
+      .setTitle("Geen permissie!")
       .setColor("#ff0000")
-      .setDescription(`I'm missing those permissions:\n- **${this.missing.join("**\n- **")}**`)
+      .setDescription(`Ik mis de volgende permissies:\n- **${this.missing.join("**\n- **")}**`)
     );
   }
 
   // Checking if the bot is restarting
-  if (this.client.restarting) return message.error("The bot is restarting, use me later!");
+  if (this.client.restarting) return message.error("De bot is opnieuw aan het opstarten, probeer het later nog een keer!");
 
   // Running the command
   if (this.cmd.prepare) await this.cmd.prepare(message, this.arg);

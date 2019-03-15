@@ -8,6 +8,7 @@ new BananenBase({
     package: "json", // DO NOT USE JSON FOR PUBLIC BOTS! Use it only for testing.
     name: ".tmp_database.json"
   },
+  language: "EN", // The language
   bot: (client) => {
     // Do things when the client is ready.
   },

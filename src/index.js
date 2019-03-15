@@ -7,11 +7,28 @@ const moment = require("moment"); // Time loggin
 const error = require("./error.js"); // Outputting errors
 const load = require("./load.js"); // Loading the commands, events, etc
 const messageEvent = require("./bot/message.js"); // Basic message handling
+const nl_messageEvent = require("./bot/nl_message.js"); // Basic message handling: Dutch
 
 // Exports the main class
 exports = module.exports = class BananenBase {
   constructor(options = {}) {
     // Options
+    if (!options.language) this.language = "EN";
+    else this.language = options.language;
+    if (!["EN", "NL"].includes(this.language)) return error("Invalid language!");
+
+    switch (this.language) {
+      case "EN":
+        options.message = messageEvent;
+        break;
+      case "NL":
+        options.message = nl_messageEvent;
+        break;
+    }
+
+    this.message = options.message;
+    if (!this.message) this.message = messageEvent;
+
     if (!options.token) return error("No token found to run the discord bot!");
     this.token = options.token;
 
@@ -200,13 +217,37 @@ exports = module.exports = class BananenBase {
         this.client.prefix = this.prefix;
         this.client.activeCommands = this.activeCommands;
         this.client.ignore = this.ignore;
+        if (this.language === "EN") {
+          this.client.stop = function(reason = "I want to") {
+            console.log(chalk.red(`Stopping because ${reason}`));
+            setInterval(async () => {
+              let activeChannels = await this.database.get("activeChannels");
+              if (!activeChannels) activeChannels = [];
+              if (activeChannels.length !== 0) return console.log(`Waiting for ${activeChannels.length} active channels...`);
+              process.exit();
+            }, 1000);
+          }
+          this.client.language = "en";
+        } else if (this.language === "NL") {
+          this.client.stop = function(reason = "ik dat wilt") {
+            console.log(chalk.red(`Stoppen omdat ${reason}`));
+            setInterval(async () => {
+              let activeChannels = await this.database.get("activeChannels");
+              if (!activeChannels) activeChannels = [];
+              if (activeChannels.length !== 0) return console.log(`Wachten op ${activeChannels.length} actieve kanalen...`);
+              process.exit();
+            }, 1000);
+          }
+          this.client.language = "nl";
+        }
 
         delete this.token;
         load(this);
 
         // Bot is ready
         this.client.on("ready", () => {
-          console.info(`${chalk.yellow(this.client.user.username)} is now online!\n`);
+          if (this.client.language === "en") console.info(`${chalk.yellow(this.client.user.username)} is now online!\n`);
+          else if (this.client.language === "nl") console.info(`${chalk.yellow(this.client.user.username)} is nu online!\n`);
           this.bot(this.client);
 
           if (this.server) {
@@ -302,7 +343,7 @@ exports = module.exports = class BananenBase {
         });
 
         // Bot message
-        this.client.on("message", (message) => {messageEvent(this.client, message)});
+        this.client.on("message", (message) => {this.message(this.client, message)});
       }
     });
   }
