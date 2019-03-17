@@ -117,34 +117,45 @@ module.exports = async (client, message) => {
     .setDescription(`The **${this.cmd.help.name}** command requires permission level **${this.cmd.permLevel}**, but you don't have it!`)
   );
 
+  // Bot permissions
+  this.member = message.guild.members.get(this.client.user.id);
+  this.botPermissions = this.member.permissions;
+  this.missing = [];
+  this.cmd.permissions.me.forEach(perm => {
+    if (perm === "BOT_OWNER") {
+      if (!this.client.config.botOwners.includes(this.client.user.id)) this.missing.push(perm);
+    } else if (!this.botPermissions.has(perm)) this.missing.push(perm);
+  });
+  this.client.defaultPermissions.forEach(perm => {
+    if (perm === "BOT_OWNER") {
+      if (!this.client.config.botOwners.includes(this.client.user.id)) this.missing.push(perm);
+    } else if (!this.botPermissions.has(perm)) this.missing.push(perm);
+  });
+  if (this.missing.length !== 0) {
+    try {
+      return message.channel.send(message.embed()
+        .setTitle("Not every permission!")
+        .setColor("#ff0000")
+        .setDescription(`I'm missing those permissions:\n- **${this.missing.join("**\n- **")}**`)
+      );
+    } catch(e) {
+      return message.channel.send(`I'm missing those permissions:\n- **${this.missing.join("**\n- **")}**`);
+    }
+  }
+
   // User permissions
   this.userPerms = message.member.permissions;
   this.missing = [];
   this.cmd.permissions.user.forEach(perm => {
-    if (perm === "BOT_OWNER") if (!this.client.config.botOwners.includes(message.author.id)) this.missing.push(perm);
-    else if (!this.userPerms.has(perm)) this.missing.push(perm);
+    if (perm === "BOT_OWNER") {
+      if (!this.client.config.botOwners.includes(message.author.id)) this.missing.push(perm);
+    } else if (!this.userPerms.has(perm)) this.missing.push(perm);
   });
   if (this.missing.length !== 0) {
     return message.channel.send(message.embed()
       .setTitle("Not every permission!")
       .setColor("#ff0000")
       .setDescription(`You are missing those permissions:\n- **${this.missing.join("**\n- **")}**`)
-    );
-  }
-
-  // Bot permissions
-  this.member = message.guild.members.get(this.client.user.id);
-  this.botPermissions = this.member.permissions;
-  this.missing = [];
-  this.cmd.permissions.me.forEach(perm => {
-    if (perm === "BOT_OWNER") if (!this.client.config.botOwners.includes(message.author.id)) this.missing.push(perm);
-    else if (!this.userPerms.has(perm)) this.missing.push(perm);
-  });
-  if (this.missing.length !== 0) {
-    return message.channel.send(message.embed()
-      .setTitle("Not every permission!")
-      .setColor("#ff0000")
-      .setDescription(`I'm missing those permissions:\n- **${this.missing.join("**\n- **")}**`)
     );
   }
 

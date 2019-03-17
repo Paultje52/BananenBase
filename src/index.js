@@ -29,6 +29,9 @@ exports = module.exports = class BananenBase {
     this.message = options.message;
     if (!this.message) this.message = messageEvent;
 
+    this.requiredPermissions = options.requiredPermissions;
+    if (!this.requiredPermissions) this.requiredPermissions = ["READ_MESSAGES", "SEND_MESSAGES"];
+
     if (!options.token) return error("No token found to run the discord bot!");
     this.token = options.token;
 
@@ -216,6 +219,7 @@ exports = module.exports = class BananenBase {
         this.client.settings = this.settings;
         this.client.prefix = this.prefix;
         this.client.activeCommands = this.activeCommands;
+        this.client.defaultPermissions = this.requiredPermissions;
         this.client.ignore = this.ignore;
         if (this.language === "EN") {
           this.client.stop = function(reason = "I want to") {

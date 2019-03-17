@@ -1,3 +1,10 @@
+# V3.2.1
+## Added
+- Default permissions: The bot also checks if he has them.
+
+## Fixed
+- Some issues with checking the user and bot permissions.
+
 # V3.2.0
 ## Added
 - The option to use different languages (There is Dutch and English now).
