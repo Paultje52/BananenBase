@@ -54,6 +54,23 @@ module.exports = async (client, message) => {
     }
     message.author.updateGuildDB();
 
+    if (this.client.keepTrackOfDatabase) {
+      let users = await this.client.db.get("users");
+      if (!users) users = [];
+      if (!users.includes(`author-${message.author.id}`)) users.push(`author-${message.author.id}`);
+      await this.client.db.set("users", users);
+
+      let guildUser = await this.client.db.get("guild-user");
+      if (!guildUser) guildUser = [];
+      if (!guildUser.includes(`guild-${message.guild.id}-author-${message.author.id}`)) guildUser.push(`guild-${message.guild.id}-author-${message.author.id}`);
+      await this.client.db.set("guild-user", guildUser);
+
+      let guilds = await this.client.db.get("guilds");
+      if (!guilds) guilds = [];
+      if (!guilds.includes(`guild-${message.guild.id}`)) guilds.push(`guild-${message.guild.id}`);
+      await this.client.db.set("guilds", guilds);
+    }
+
     // A custom embed
     message.embed = function() {
       if (message.guild.settings.embed) {

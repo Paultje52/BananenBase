@@ -35,6 +35,9 @@ exports = module.exports = class BananenBase {
     if (!options.token) return error("No token found to run the discord bot!");
     this.token = options.token;
 
+    this.keepTrackOfDatabase = options.keepTrackOfDatabase;
+    if (typeof this.keepTrackOfDatabase !== "boolean") this.keepTrackOfDatabase = false;
+
     if (typeof options.bot === "string") this.bot = require(`${process.cwd()}\\${options.bot}`);
     else if (typeof options.bot === "undefined") this.bot = function() {return true;};
     else this.bot = options.bot;
@@ -221,6 +224,7 @@ exports = module.exports = class BananenBase {
         this.client.activeCommands = this.activeCommands;
         this.client.defaultPermissions = this.requiredPermissions;
         this.client.ignore = this.ignore;
+        this.client.keepTrackOfDatabase = this.keepTrackOfDatabase;
         if (this.language === "EN") {
           this.client.stop = function(reason = "I want to") {
             console.log(chalk.red(`Stopping because ${reason}`));

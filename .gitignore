@@ -3,6 +3,7 @@ tBot.js
 tTest.js
 tConfig.js
 tServer.js
+database.sqlite
 
 # Logs
 logs

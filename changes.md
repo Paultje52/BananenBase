@@ -1,7 +1,12 @@
+# V3.2.2
+## Added
+- The option keepTrackOfDatabase.
+## Fixed
+- A couple database issues.
+
 # V3.2.1
 ## Added
 - Default permissions: The bot also checks if he has them.
-
 ## Fixed
 - Some issues with checking the user and bot permissions.
 
