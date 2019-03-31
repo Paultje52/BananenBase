@@ -16,7 +16,7 @@ module.exports = class BananenBase_Event_Command extends events {
 
     if (!check.permLevel) this.permLevel = 0;
     else this.permLevel = check.permLevel;
-    if (!check.func) this.check = () => {return true};
+    if (!check.func) this.check = () => {return true;};
     else this.check = check.func;
     if (!check.permissions) check.permissions = {};
     if (!check.permissions.me) check.permissions.me = [];
@@ -36,4 +36,4 @@ module.exports = class BananenBase_Event_Command extends events {
     if (this._events.runInPM) this.emit("runInPM", message, args, client);
     else this.emit("run", message, args, client);
   }
-}
+};

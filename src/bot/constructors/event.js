@@ -5,6 +5,6 @@ module.exports = exports = class BananenBase_Event {
     if (typeof this.enabled !== "boolean") this.enabled = true;
     this.name = object.name;
   }
-}
+};
 
 exports.event = require("./event/event.js");

@@ -1,3 +1,9 @@
+# V3.2.4
+## Added
+- Support for more types of command exports.
+## Fixed
+- Some syntax things
+
 # V3.2.3
 ## Fixed
 - Some uncertainty with loading commands

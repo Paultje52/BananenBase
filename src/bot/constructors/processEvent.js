@@ -7,6 +7,6 @@ module.exports = exports = class BananenBase_ProcessEvent {
     this.description = object.description;
     if (!this.description) this.description = "A BananenBase process event";
   }
-}
+};
 
 exports.event = require("./event/processEvent.js");

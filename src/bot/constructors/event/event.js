@@ -16,4 +16,4 @@ module.exports = class BananenBase_Event_Event extends events {
   run(...args) {
     this.emit("run", this.client, ...args);
   }
-}
+};
