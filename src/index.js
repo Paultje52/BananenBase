@@ -4,7 +4,6 @@ const chalk = require("chalk"); // Color in the console
 const moment = require("moment"); // Time loggin
 
 // Needed files
-const error = require("./error.js"); // Outputting errors
 const load = require("./load.js"); // Loading the commands, events, etc
 const messageEvent = require("./bot/message.js"); // Basic message handling
 const nl_messageEvent = require("./bot/nl_message.js"); // Basic message handling: Dutch
@@ -107,7 +106,6 @@ exports = module.exports = class BananenBase {
           console.log(text);
         } else console.log(`${chalk.yellow(`[${moment().format("HH:mm:ss ms")}]`)} ${text}`);
       }
-      console.error = error;
     }
 
 

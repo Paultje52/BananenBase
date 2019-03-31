@@ -4,6 +4,7 @@ tTest.js
 tConfig.js
 tServer.js
 database.sqlite
+.eslintrc.json
 
 # Logs
 logs

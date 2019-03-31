@@ -16,7 +16,11 @@ module.exports = function(t) {
         try {
           c = new c(t.client);
         } catch(e) {
-          c.setClient(t.client);
+          try {
+            c.setClient(t.client);
+          } catch(er) {
+            return console.error(`Error in file ${result}: invalid syntax: Exports must be with a default constructor!`);
+          }
         }
         if (!c.enabled) return;
         c.help.dir = result;
@@ -67,4 +71,4 @@ module.exports = function(t) {
       console.info(`${chalk.green(results.length)} process event(s) loaded!`);
     });
   }
-}
+};

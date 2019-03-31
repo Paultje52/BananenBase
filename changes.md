@@ -1,3 +1,7 @@
+# V3.2.3
+## Fixed
+- Some uncertainty with loading commands
+
 # V3.2.2
 ## Added
 - The option keepTrackOfDatabase.
