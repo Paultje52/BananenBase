@@ -1,4 +1,4 @@
-# V3.2.5
+# V3.2.5 / V3.2.6
 ## Added
 - That botowners now can use commands when the channel is active.
 ## Fixed
