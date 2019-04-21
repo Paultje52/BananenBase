@@ -175,7 +175,8 @@ exports = module.exports = class BananenBase {
               clearInterval(interval);
               this.database = new keyv(`${options.database.type}://${options.database.code}`);
               this.database.on("error", (err) => {
-                error(`Database error: ${err}`);
+                console.log(`Database error: ${err}`);
+                process.exit();
               });
               this.databaseIsReady = true;
             }

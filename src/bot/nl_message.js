@@ -118,7 +118,7 @@ module.exports = async (client, message) => {
   // Checking if the channel is active with something
   let activeChannels = await this.client.db.get("activeChannels");
   if (!activeChannels) activeChannels = [];
-  if (activeChannels.includes(message.channel.id)) return message.react("❌");
+  if (activeChannels.includes(message.channel.id) && !this.client.config.botOwners.includes(message.author.id)) return message.react("❌");
 
   // Checking command permissions
   this.cmdPermission = await this.cmd.check(this.client, message, this.args, true);

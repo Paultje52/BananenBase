@@ -1,3 +1,10 @@
+# V3.2.5
+## Added
+- That botowners now can use commands when the channel is active.
+## Fixed
+- Some spelling mistakes.
+- Database error handling (bot will now crash when a keyv database crashes)
+
 # V3.2.4
 ## Added
 - Support for more types of command exports.
