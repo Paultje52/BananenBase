@@ -26,8 +26,10 @@ _Those dependencies are installed automatically_
 - [ ] Update dependencies in [package.json](package.json)
 - [ ] Trigger commands on message edit (option, by default false)
 - [ ] Better error handling
+
 **Version 3.3.1**
 - [ ] Easy to make logs: Just a simple option to specify which types of logs you want and in which channel you want it (Can also be changed in the database when set to)
+
 **Version 3.3.2**
 - [ ] Compleat docs (including API reference) in Github Wiki
 
