@@ -23,6 +23,7 @@ _Those dependencies are installed automatically_
 
 ## Todo
 **Version 3.3.0**
+- [ ] Include setup file (auto generate settings with some options) and install package file if no packages are installed (For things like petrodolcy) 
 - [ ] Update dependencies in [package.json](package.json)
 - [ ] Trigger commands on message edit (option, by default false)
 - [ ] Better error handling
@@ -32,7 +33,11 @@ _Those dependencies are installed automatically_
 
 **Version 3.3.2**
 - [ ] Compleat docs (including API reference) in Github Wiki
-- [ ] In the docs an example file to install the needed packages if you are using something like pterodactyl (Just set the run file to that file and let the magic do it's thing!)
+
+**Version 3.4.0**
+- [ ] Easy session cookie handling for the dashboard (check if an user is logged in, if not, send he/she to the login page and logout support)
+- [ ] Load all the settings of an user (guild settings that he/she can acces, user settings and for each guild the user settings) with **one function**
+- [ ] Run the dashboard without setting up the discord bot! That means that you can use the BananenBase also for a NodeJS website!
 
 ## Examples
 Read more examples [here](/tests).
