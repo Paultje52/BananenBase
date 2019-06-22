@@ -32,6 +32,7 @@ _Those dependencies are installed automatically_
 
 **Version 3.3.2**
 - [ ] Compleat docs (including API reference) in Github Wiki
+- [ ] In the docs an example file to install the needed packages if you are using something like pterodactyl (Just set the run file to that file and let the magic do it's thing!)
 
 ## Examples
 Read more examples [here](/tests).
