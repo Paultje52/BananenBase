@@ -25,7 +25,7 @@ _Those dependencies are installed automatically_
 **Version 3.3.0**
 - [ ] Include setup file (auto generate settings with some options) and install package file if no packages are installed (For things like petrodolcy) 
 - [ ] Update dependencies in [package.json](package.json)
-- [ ] Trigger commands on message edit (option, by default false)
+- [x] Trigger commands on message edit (option, by default false)
 - [ ] Better error handling
 
 **Version 3.3.1**
