@@ -24,9 +24,10 @@ _Those dependencies are installed automatically_
 ## Todo
 **Version 3.3.0**
 - [ ] Include setup file (auto generate settings with some options) and install package file if no packages are installed (For things like petrodolcy) 
-- [ ] Update dependencies in [package.json](package.json)
+- [x] Update dependencies in [package.json](package.json)
 - [x] Trigger commands on message edit (option, by default false)
 - [x] Better error handling
+- [ ] Fix some bugs
 
 **Version 3.3.1**
 - [ ] Easy to make logs: Just a simple option to specify which types of logs you want and in which channel you want it (Can also be changed in the database when set to)
