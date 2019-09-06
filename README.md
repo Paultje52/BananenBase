@@ -15,10 +15,30 @@ The BananenBase is a NodeJS framework for making discord bots. You can use it ve
 - Easy-to-use dashboard setup, with a simple discord login system
 
 ## Dependencies
+_Those dependencies are installed automatically_
 - Discord.js - Connect to the Discord API
 - Chalk - Color in the console
 - Fsscanner - Scan dirs
 - Moment - Time logs
+
+## Todo
+**Version 3.3.0**
+- [ ] Include setup file (auto generate settings with some options) and install package file if no packages are installed (For things like petrodolcy) 
+- [x] Update dependencies in [package.json](package.json)
+- [x] Trigger commands on message edit (option, by default false)
+- [x] Better error handling
+- [ ] Fix some bugs
+
+**Version 3.3.1**
+- [ ] Easy to make logs: Just a simple option to specify which types of logs you want and in which channel you want it (Can also be changed in the database when set to)
+
+**Version 3.3.2**
+- [ ] Compleat docs (including API reference) in Github Wiki
+
+**Version 3.4.0**
+- [ ] Easy session cookie handling for the dashboard (check if an user is logged in, if not, send he/she to the login page and logout support)
+- [ ] Load all the settings of an user (guild settings that he/she can acces, user settings and for each guild the user settings) with **one function**
+- [ ] Run the dashboard without setting up the discord bot! That means that you can use the BananenBase also for a NodeJS website!
 
 ## Examples
 Read more examples [here](/tests).
