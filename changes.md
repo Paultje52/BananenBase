@@ -1,3 +1,14 @@
+# V3.2.7
+## Added
+- Trigger commands on message updates option (default to false)
+- Custom send function for editing messages that are allready sent and needs to be edited
+- Better error handling
+- Bot owners can allways use commands, even when the bot is restarting.
+## Fixed
+- A bug with the active channels
+- Spelling problem with the "message.error" function
+- The BananenBase now supports more command file syntax!
+
 # V3.2.5 / V3.2.6
 ## Added
 - That botowners now can use commands when the channel is active.

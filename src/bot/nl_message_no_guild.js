@@ -54,7 +54,7 @@ module.exports = async (client, message) => {
   );
 
   // Checking if the bot is restarting
-  if (client.restarting) return message.error("De bot is opnieuw aan het opstarten, probeer het later nog een keer!");
+  if (client.restarting && !client.config.botOwners.includes(message.author.id)) return message.error("De bot is opnieuw aan het opstarten, probeer het later nog een keer!");
 
   // Running the command
   if (cmd.prepare) await cmd.prepare(message, arg);

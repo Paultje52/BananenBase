@@ -23,6 +23,11 @@ module.exports = function(t) {
               console.warn(`${result} - Export isn't made with a default constructor. It can happen that not everything is working like it is supposed to.`);
               if (c.options) c.check = c.options;
 
+              if (!c.check) c.check = {};
+              if (!c.check.permissions) c.check.permissions = {};
+              if (!c.help.permissions) c.help.permissions = {};
+              if (!c.permissions) c.permissions = {};
+
               c.enabled = c.help.enabled || c.check.enabled || false;
               c.guildOnly = c.help.guildOnly || c.check.guildOnly || false;
               c.permLevel = c.help.permLevel || c.check.permLevel || 0;

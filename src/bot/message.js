@@ -102,6 +102,10 @@ module.exports = async (client, message) => {
     this.command = this.args.shift().toLowerCase();
   }
 
+  message.channel.customSend = (content) => {
+    return this.client.sendMessage(message.channel, message, content);
+  };
+
   // Flags
   this.arg = [];
   message.flags = [];
@@ -177,7 +181,7 @@ module.exports = async (client, message) => {
   }
 
   // Checking if the bot is restarting
-  if (this.client.restarting) return message.error("The bot is restarting, use me later!");
+  if (this.client.restarting && !this.client.config.botOwners.includes(message.author.id)) return message.error("The bot is restarting, use me later!");
 
   // Running the command
   if (this.cmd.prepare) await this.cmd.prepare(message, this.arg);

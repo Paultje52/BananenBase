@@ -50,7 +50,7 @@ module.exports = async (client, message) => {
   if (!this.cmdLevelCheck) return message.channel.send(message.embed().setTitle("No permission!").setDescription(`The **${this.cmd.help.name}** command requires permission level **${this.cmd.permLevel}**, but you don't have it!`));
 
   // Checking if the bot is restarting
-  if (client.restarting) return message.error("The bot is restarting, use me later!");
+  if (client.restarting && !client.config.botOwners.includes(message.author.id)) return message.error("The bot is restarting, use me later!");
 
   // Running the command
   if (cmd.prepare) await cmd.prepare(message, arg);
