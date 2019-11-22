@@ -102,10 +102,6 @@ module.exports = async (client, message) => {
     this.command = this.args.shift().toLowerCase();
   }
 
-  message.channel.customSend = (content) => {
-    return this.client.sendMessage(message.channel, message, content);
-  };
-
   // Flags
   this.arg = [];
   message.flags = [];
@@ -114,6 +110,8 @@ module.exports = async (client, message) => {
     else this.arg.push(arg);
   });
   this.args = this.arg;
+
+  this.client.emit("bb_message", message, this.cmd);
 
   // Finding the command
   this.cmd = this.client.commands.get(this.command) || this.client.subCommands.get(this.command);
@@ -181,10 +179,16 @@ module.exports = async (client, message) => {
   }
 
   // Checking if the bot is restarting
-  if (this.client.restarting && !this.client.config.botOwners.includes(message.author.id)) return message.error("The bot is restarting, use me later!");
+  if (this.client.restarting) return message.error("The bot is restarting, use me later!");
 
   // Running the command
-  if (this.cmd.prepare) await this.cmd.prepare(message, this.arg);
-  await this.cmd.run(message, this.args, this.client);
-  if (this.cmd.done) await this.cmd.done(message, this.args);
+  this.client.emit("bb_command", message, this.cmd);
+  if (this.cmd.prepare) await this.cmd.prepare(message, this.arg, this.client);
+  try {
+    await this.cmd.run(message, this.args, this.client);
+  } catch(e) {
+    if (!this.client._commandErrorThrowing) return;
+    console.error(e);
+  }
+  if (this.cmd.done) await this.cmd.done(message, this.args, this.client);
 }

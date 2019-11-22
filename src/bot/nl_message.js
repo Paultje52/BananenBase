@@ -102,10 +102,6 @@ module.exports = async (client, message) => {
     this.command = this.args.shift().toLowerCase();
   }
 
-  message.channel.customSend = (content) => {
-    return this.client.sendMessage(message.channel, message, content);
-  };
-
   // Flags
   this.arg = [];
   message.flags = [];
@@ -181,10 +177,10 @@ module.exports = async (client, message) => {
   }
 
   // Checking if the bot is restarting
-  if (this.client.restarting && !this.client.config.botOwners.includes(message.author.id)) return message.error("De bot is opnieuw aan het opstarten, probeer het later nog een keer!");
+  if (this.client.restarting) return message.error("De bot is opnieuw aan het opstarten, probeer het later nog een keer!");
 
   // Running the command
-  if (this.cmd.prepare) await this.cmd.prepare(message, this.arg);
+  if (this.cmd.prepare) await this.cmd.prepare(message, this.arg, this.client);
   await this.cmd.run(message, this.args, this.client);
-  if (this.cmd.done) await this.cmd.done(message, this.args);
+  if (this.cmd.done) await this.cmd.done(message, this.args, this.client);
 }

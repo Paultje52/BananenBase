@@ -1,4 +1,18 @@
-# V3.2.7
+# V3.2.9
+## Fixed
+- Typedefs for typescript
+
+# V3.2.8
+## Added
+- Added typedefs for typescript
+- Added client events:
+  - bb_message: Will be called when the BananenBase functions are set on a message (message.error, message.author.settings, etc).<br>It has one parameter: The message
+  - bb_command: Will be called before a command is called.<br>It has to parameters: The message and the command object
+- Added a setting for disabling errors for commands, named `commandErrorThrowing` (default: `true`)
+- Added a setting for the event emitter to increse the limit of 10 functions per event, called `eventEmitterMaxFuncions`. Default: `10`
+- Added a way to view your version: `BananenBase.version`
+
+# V3.2.7 
 ## Added
 - Trigger commands on message updates option (default to false)
 - Custom send function for editing messages that are allready sent and needs to be edited
