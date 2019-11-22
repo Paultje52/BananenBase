@@ -1,3 +1,7 @@
+# V3.2.9
+## Fixed
+- Typedefs for typescript
+
 # V3.2.8
 ## Added
 - Added typedefs for typescript

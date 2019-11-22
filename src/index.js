@@ -386,4 +386,4 @@ exports = module.exports = class BananenBase {
 exports.event = require("./bot/constructors/event.js");
 exports.command = require("./bot/constructors/command.js");
 exports.process_event = require("./bot/constructors/processEvent.js");
-exports.version = "v3.2.8";
+exports.version = "v3.2.9";

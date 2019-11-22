@@ -3,7 +3,7 @@ Welcome on the github page of the official BananenBase NPM Package!
 
 The BananenBase is a NodeJS framework for making discord bots. You can use it very easy. No need for making your own command handler or cloning one from github.
 
-**Current version:** `V3.2.8`.
+**Current version:** `V3.2.9`.
 
 ## Features
 - Easy to use: Only one line of code required to setup and load everything
