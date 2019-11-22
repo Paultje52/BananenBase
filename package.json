@@ -1,13 +1,13 @@
 {
   "name": "bananenbase",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "description": "Thé discord.js AND express framework!",
   "main": "src/index.js",
   "dependencies": {
     "chalk": "^2.4.2",
     "discord.js": "^11.5.1",
     "fsscanner": "^1.0.23",
-    "inquirer": "^6.4.1",
+    "inquirer": "^6.5.2",
     "moment": "^2.24.0"
   },
   "devDependencies": {},

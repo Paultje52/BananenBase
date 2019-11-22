@@ -3,6 +3,8 @@ Welcome on the github page of the official BananenBase NPM Package!
 
 The BananenBase is a NodeJS framework for making discord bots. You can use it very easy. No need for making your own command handler or cloning one from github.
 
+**Current version:** `V3.2.8`.
+
 ## Features
 - Easy to use: Only one line of code required to setup and load everything
 - Fast: Everything is optimised, so you can make a fast Discord bot
@@ -14,20 +16,11 @@ The BananenBase is a NodeJS framework for making discord bots. You can use it ve
 - Advanced command settings: Don't write 15 lines of code, only for checking if a user may run a command.
 - Easy-to-use dashboard setup, with a simple discord login system
 
-## Dependencies
-_Those dependencies are installed automatically_
-- Discord.js - Connect to the Discord API
-- Chalk - Color in the console
-- Fsscanner - Scan dirs
-- Moment - Time logs
-
 ## Todo
 **Version 3.3.0**
-- [ ] Include setup file (auto generate settings with some options) and install package file if no packages are installed (For things like petrodolcy) 
-- [x] Update dependencies in [package.json](package.json)
-- [x] Trigger commands on message edit (option, by default false)
-- [x] Better error handling
-- [ ] Fix some bugs
+- [ ] Include setup file (auto generate settings with some options)
+- [ ] Incluse package install file (For things like petrodolcy)
+- [ ] A documentation
 
 **Version 3.3.1**
 - [ ] Easy to make logs: Just a simple option to specify which types of logs you want and in which channel you want it (Can also be changed in the database when set to)
@@ -119,3 +112,11 @@ module.exports = class ping extends command {
     msg.edit(`:ping_pong: ${Date.now()-start}ms`);
   }
 }
+```
+
+## Dependencies
+_Those dependencies are installed automatically_
+- Discord.js - Connect to the Discord API
+- Chalk - Color in the console
+- Fsscanner - Scan dirs
+- Moment - Time logs

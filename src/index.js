@@ -90,6 +90,11 @@ exports = module.exports = class BananenBase {
     this._webPort = options.webPort;
     if (typeof this._webPort !== "number") this._webPort = 8080;
 
+    this._commandErrorThrowing = options.commandErrorThrowing;
+    if (typeof this._commandErrorThrowing !== "boolean") this._commandErrorThrowing = true;
+
+    this._eventEmitterMaxFuncions = options.eventEmitterMaxFuncions;
+    if (typeof this._eventEmitterMaxFuncions !== "number") this._eventEmitterMaxFuncions = 10;
 
     // Console functions
     if (this._consoleFunctions) {
@@ -218,6 +223,7 @@ exports = module.exports = class BananenBase {
       if (this._databaseIsReady) {
         clearInterval(int);
         this.client = new discord.Client(options.clientSettings);
+        this.client.setMaxListeners(this._eventEmitterMaxFuncions);
         this.client.login(this._token);
         this.client.config = this._botConfig;
         this.client.mainConfig = this;
@@ -230,8 +236,9 @@ exports = module.exports = class BananenBase {
         this.client.ignore = this._ignore;
         this.client.keepTrackOfDatabase = this._keepTrackOfDatabase;
         this.client._triggerMessageUpdates = this._triggerMessageUpdates;
+        this.client._commandErrorThrowing = this._commandErrorThrowing;
         if (this._language === "EN") {
-          this.client.stop = function(reason = "I want to") {
+          this.client.stop = (reason = "I want to") => {
             console.log(chalk.red(`Stopping because ${reason}`));
             setInterval(async () => {
               let activeChannels = await this._database.get("activeChannels");
@@ -242,7 +249,7 @@ exports = module.exports = class BananenBase {
           }
           this.client.language = "en";
         } else if (this._language === "NL") {
-          this.client.stop = function(reason = "ik dat wilt") {
+          this.client.stop = (reason = "ik dat wilt") => {
             console.log(chalk.red(`Stoppen omdat ${reason}`));
             setInterval(async () => {
               let activeChannels = await this._database.get("activeChannels");
@@ -379,3 +386,4 @@ exports = module.exports = class BananenBase {
 exports.event = require("./bot/constructors/event.js");
 exports.command = require("./bot/constructors/command.js");
 exports.process_event = require("./bot/constructors/processEvent.js");
+exports.version = "v3.2.8";
