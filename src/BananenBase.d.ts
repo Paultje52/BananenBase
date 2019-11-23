@@ -75,3 +75,43 @@ declare module "bananenbase" {
 		eventEmitterMaxFuncions?: number
 	}
 }
+export = class BananenBase {
+	constructor(options: BananenBaseOptions)
+}
+interface BananenBaseOptions {
+	token: string,
+	database: {
+		package: "keyv" | "json";
+		name: string;
+		type?: "mongodb" | "redis" | "sqlite" | "postgres" | "mysql";
+		code?: string;
+	},
+	language: "EN" | "NL",
+	bot?: object,
+	settings?: boolean,
+	prefix: string,
+	botConfig?: {
+		botOwners: [string],
+		authorSettings: object,
+		guildSettings: {
+			prefix: string,
+			embed: {
+				color: string,
+				footerText: string,
+				time: boolean,
+				footerImage: string
+			}
+		}
+	},
+	ignore?: {
+		bot: boolean,
+		pm: boolean
+	},
+	server?: string | object,
+	webPort?: number,
+	consoleFunctions?: boolean,
+	permissionLevels?: [object],
+	pmPrefix: boolean,
+	commandErrorThrowing?: boolean,
+	eventEmitterMaxFuncions?: number
+}

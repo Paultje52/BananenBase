@@ -11,7 +11,7 @@ const messageEvent = require("./bot/message.js"); // Basic message handling
 const nl_messageEvent = require("./bot/nl_message.js"); // Basic message handling: Dutch
 
 // Exports the main class
-exports = module.exports.BananenBase = class BananenBase {
+exports = module.exports = class BananenBase {
   constructor(options = {}) {
     // Options
     if (!options.language) this._language = "EN";
