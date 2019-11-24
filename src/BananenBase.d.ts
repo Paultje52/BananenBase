@@ -3,11 +3,14 @@ import * as discord from 'discord.js';
 declare module 'bananenbase' {
 	const command : BananenBase_Command;
 	const event : BananenBase_Event;
-	export = BananenBase;
+	
 }
-declare class BananenBase {
+export = class BananenBase {
 	constructor(options: BananenBaseOptions)
 }
+// declare class BananenBase {
+// 	constructor(options: BananenBaseOptions)
+// }
 interface BananenBaseOptions {
 	token: string,
 	database: {
