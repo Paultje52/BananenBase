@@ -1,5 +1,10 @@
 import * as discord from 'discord.js';
-
+// import bananenbase = require("bananenbase");
+declare module 'bananenbase' {
+	const command : BananenBase_Command;
+	const event : BananenBase_Event;
+	export = BananenBase;
+}
 declare class BananenBase {
 	constructor(options: BananenBaseOptions)
 }
@@ -41,6 +46,7 @@ interface BananenBaseOptions {
 	eventEmitterMaxFuncions?: number
 }
 
+// export = BananenBase;
 declare class BananenBase_Command {
 	constructor(
 		client: discord.Client,
@@ -63,17 +69,17 @@ declare class BananenBase_Command {
 		}
 	)
 	run(
-		message: object,
-		args?: [string | undefined],
-		client?: object
+		message: discord.Message,
+		args?: [string[] | undefined],
+		client?: discord.Client
 	): object
 	prepare(
-		message: object,
-		args?: [string | undefined]
+		message: discord.Message,
+		args?: [string[] | undefined]
 	): object
 	done(
-		message: object,
-		args?: [string | undefined]
+		message: discord.Message,
+		args?: [string[] | undefined]
 	): object
 	client: discord.Client
 }
@@ -90,6 +96,6 @@ declare class BananenBase_Event {
 	): object
 	client: discord.Client
 }
-export = BananenBase;
-export const command = BananenBase_Command;
-export const event = BananenBase_Event;
+// export = BananenBase;
+// export const command = BananenBase_Command;
+// export const event = BananenBase_Event;
