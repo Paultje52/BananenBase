@@ -1,3 +1,8 @@
+# V3.2.10
+## Fixed
+- Typedefs are now working when you're using a typescript file
+- You can now use a external database
+
 # V3.2.9
 ## Fixed
 - Typedefs for typescript

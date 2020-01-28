@@ -1,6 +1,6 @@
 import * as discord from 'discord.js';
 // import bananenbase = require("bananenbase");
-declare module 'bananenbase' {
+declare module "BananenBase" {
 	const command : BananenBase_Command;
 	const event : BananenBase_Event;
 	

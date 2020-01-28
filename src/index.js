@@ -1,5 +1,3 @@
-'use strict';
-
 // Needed packages
 const discord = require("discord.js"); // Interact with the discord api
 const chalk = require("chalk"); // Color in the console
@@ -14,11 +12,11 @@ const nl_messageEvent = require("./bot/nl_message.js"); // Basic message handlin
 exports = module.exports = class BananenBase {
   constructor(options = {}) {
     // Options
-    if (!options.language) this._language = "EN";
-    else this._language = options.language;
-    if (!["EN", "NL"].includes(this._language)) throw Error("Invalid language!");
+    if (!options.language) this.language = "EN";
+    else this.language = options.language;
+    if (!["EN", "NL"].includes(this.language)) return error("Invalid language!");
 
-    switch (this._language) {
+    switch (this.language) {
       case "EN":
         options.message = messageEvent;
         break;
@@ -27,77 +25,69 @@ exports = module.exports = class BananenBase {
         break;
     }
 
-    this._message = options.message;
-    if (!this._message) this._message = messageEvent;
+    this.message = options.message;
+    if (!this.message) this.message = messageEvent;
 
-    this._requiredPermissions = options.requiredPermissions;
-    if (!this._requiredPermissions) this._requiredPermissions = ["READ_MESSAGES", "SEND_MESSAGES"];
+    this.requiredPermissions = options.requiredPermissions;
+    if (!this.requiredPermissions) this.requiredPermissions = ["READ_MESSAGES", "SEND_MESSAGES"];
 
-    if (!options.token) throw Error("No token found to run the discord bot!");
-    this._token = options.token;
+    if (!options.token) return error("No token found to run the discord bot!");
+    this.token = options.token;
 
-    this._keepTrackOfDatabase = options.keepTrackOfDatabase;
-    if (typeof this._keepTrackOfDatabase !== "boolean") this._keepTrackOfDatabase = false;
+    this.keepTrackOfDatabase = options.keepTrackOfDatabase;
+    if (typeof this.keepTrackOfDatabase !== "boolean") this.keepTrackOfDatabase = false;
 
-    this._triggerMessageUpdates = options.triggerMessageUpdates;
-    if (typeof this._triggerMessageUpdates !== "boolean") this._triggerMessageUpdates = false;
+    if (typeof options.bot === "string") this.bot = require(`${process.cwd()}\\${options.bot}`);
+    else if (typeof options.bot === "undefined") this.bot = function() {return true;};
+    else this.bot = options.bot;
 
-    if (typeof options.bot === "string") this._bot = require(`${process.cwd()}\\${options.bot}`);
-    else if (typeof options.bot === "undefined") this._bot = function() {return true;};
-    else this._bot = options.bot;
+    if (typeof options.settings === "boolean") this.settings = options.settings;
+    else this.settings = true;
 
-    if (typeof options.settings === "boolean") this._settings = options.settings;
-    else this._settings = true;
+    if (typeof options.botConfig === "string") this.botConfig = require(`${process.cwd()}\\${options.botConfig}`);
+    else if (typeof options.botConfig === "undefined") this.botConfig = {};
+    else this.botConfig = options.botConfig;
 
-    if (typeof options.botConfig === "string") this._botConfig = require(`${process.cwd()}\\${options.botConfig}`);
-    else if (typeof options.botConfig === "undefined") this._botConfig = {};
-    else this._botConfig = options.botConfig;
+    if (options.prefix) this.prefix = options.prefix;
+    else if (this.botConfig.prefix) this.prefix = this.botConfig.prefix;
+    else this.prefix = ".";
 
-    if (options.prefix) this._prefix = options.prefix;
-    else if (this._botConfig.prefix) this._prefix = this._botConfig.prefix;
-    else this._prefix = ".";
-
-    if (!this._botConfig.botOwners) this._botConfig.botOwners = [];
-    if (this._settings) {
-      if (!this._botConfig.guildSettings) this._botConfig.guildSettings = {prefix: this._prefix};
-      if (!this._botConfig.authorSettings) this._botConfig.authorSettings = {};
-      if (!this._botConfig.authorGuildSettings) this._botConfig.authorGuildSettings = {};
+    if (!this.botConfig.botOwners) this.botConfig.botOwners = [];
+    if (this.settings) {
+      if (!this.botConfig.guildSettings) this.botConfig.guildSettings = {prefix: this.prefix};
+      if (!this.botConfig.authorSettings) this.botConfig.authorSettings = {};
+      if (!this.botConfig.authorGuildSettings) this.botConfig.authorGuildSettings = {};
     }
 
     if (!options.ignore) options.ignore = {};
     if (typeof options.ignore.bot !== "boolean") options.ignore.bot = true;
     if (typeof options.ignore.pm !== "boolean") options.ignore.pm = false;
-    this._ignore = options.ignore;
+    this.ignore = options.ignore;
 
-    if (typeof options.server === "undefined") this._server = false;
-    else if (typeof options.server === "string") this._server = require(`${process.cwd()}/${options.server}`);
-    else this._server = options.server;
+    if (typeof options.server === "undefined") this.server = false;
+    else if (typeof options.server === "string") this.server = require(`${process.cwd()}/${options.server}`);
+    else this.server = options.server;
 
-    if (typeof options.consoleFunctions === "boolean") this._consoleFunctions = options.consoleFunctions;
-    else if (typeof options.consoleFunctions === "undefined") this._consoleFunctions = true;
-    else throw Error("Invaled type for console functions!");
+    if (typeof options.consoleFunctions === "boolean") this.consoleFunctions = options.consoleFunctions;
+    else if (typeof options.consoleFunctions === "undefined") this.consoleFunctions = true;
+    else return error("Invaled type for console functions!");
 
-    if (!options.permissionLevels) this._botConfig.permissionLevels = [() => {return true}];
-    else this._botConfig.permissionLevels = options.permissionLevels;
-    if (typeof this._botConfig.permissionLevels === "string") this._botConfig.permissionLevels = require(`${process.cwd()}/${this._botConfig.permissionLevels}`);
+    if (!options.permissionLevels) this.botConfig.permissionLevels = [() => {return true}];
+    else this.botConfig.permissionLevels = options.permissionLevels;
+    if (typeof this.botConfig.permissionLevels === "string") this.botConfig.permissionLevels = require(`${process.cwd()}/${this.botConfig.permissionLevels}`);
 
-    // if (!options.activeCommands) this._activeCommands = ["help"];
-    // else this._activeCommands = options.activeCommands;
+    // if (!options.activeCommands) this.activeCommands = ["help"];
+    // else this.activeCommands = options.activeCommands;
 
-    if (typeof options.pmPrefix !== "boolean") this._pmPrefix = false;
-    else this._pmPrefix = options.pmPrefix;
+    if (typeof options.pmPrefix !== "boolean") this.pmPrefix = false;
+    else this.pmPrefix = options.pmPrefix;
 
-    this._webPort = options.webPort;
-    if (typeof this._webPort !== "number") this._webPort = 8080;
+    this.webPort = options.webPort;
+    if (typeof this.webPort !== "number") this.webPort = 8080;
 
-    this._commandErrorThrowing = options.commandErrorThrowing;
-    if (typeof this._commandErrorThrowing !== "boolean") this._commandErrorThrowing = true;
-
-    this._eventEmitterMaxFuncions = options.eventEmitterMaxFuncions;
-    if (typeof this._eventEmitterMaxFuncions !== "number") this._eventEmitterMaxFuncions = 10;
 
     // Console functions
-    if (this._consoleFunctions) {
+    if (this.consoleFunctions) {
       console.info = function(text = "") {
         if (typeof text === "object") {
           console.log(chalk.green(`[${moment().format("HH:mm:ss ms")}]`));
@@ -119,24 +109,20 @@ exports = module.exports = class BananenBase {
     }
 
 
-    this._databaseIsReady = true;
+    this.databaseIsReady = true;
     if (typeof options.database === "object") {
-      this._databaseIsReady = false;
+      this.databaseIsReady = false;
       let funcObject = false;
-      setTimeout(async () => {
-        try {
-          await options.database.set("_tmp.bb_bananenbase/test", "temp");
-          await options.database.get("_tmp.bb_bananenbase/test");
-          await options.database.delete("_tmp.bb_bananenbase/test");
-          funcObject = true;
-        } catch(e) {}
-      });
-      if (funcObject) this._database = options.database;
+      options.database.set("_tmp.bb_bananenbase/test", "temp");
+      options.database.get("_tmp.bb_bananenbase/test");
+      options.database.delete("_tmp.bb_bananenbase/test");
+      funcObject = true;
+      if (funcObject) this.database = options.database;
       else {
-        if (!options.database.package) throw Error("Invaled database object!");
+        if (!options.database.package) return error("Invaled database object!");
         options.database.cwd = process.cwd();
         if (options.database.package === "json") {
-          if (!options.database.name) throw Error("Invaled database object: No database name for json")
+          if (!options.database.name) return error("Invaled database object: No database name for json")
           let jsonSystem;
           let status = false;
           try {
@@ -145,7 +131,7 @@ exports = module.exports = class BananenBase {
           } catch(e) {
             console.log("No json-config-store package found, installing it...");
             require("child_process").exec("npm i -s json-config-store", (a, b, c) => {
-              if (a || c) throw Error(a || c);
+              if (a || c) return error(a || c);
               jsonSystem = require("json-config-store");
               console.log("json-config-store successfull installed!\n");
               status = true;
@@ -154,17 +140,17 @@ exports = module.exports = class BananenBase {
           let interval = setInterval(() => {
             if (status) {
               clearInterval(interval);
-              this._database = new jsonSystem({
+              this.database = new jsonSystem({
                 cwd: options.database.cwd,
                 configName: options.database.dbName
               });
-              this._databaseIsReady = true;
+              this.databaseIsReady = true;
             }
           });
         } else if (options.database.package === "keyv") {
-          if (!options.database.type) throw Error("No type of keyv storage!");
-          if (!options.database.code) throw Error("No code for keyv storage!");
-          if (!["redis", "mongodb", "sqlite", "postgresql", "mysql"].includes(options.database.type)) throw Error("Invaled type of storage for keyv!");
+          if (!options.database.type) return error("No type of keyv storage!");
+          if (!options.database.code) return error("No code for keyv storage!");
+          if (!["redis", "mongodb", "sqlite", "postgresql", "mysql"].includes(options.database.type)) return error("Invaled type of storage for keyv!");
           let keyv;
           let status = false;
           try {
@@ -174,7 +160,7 @@ exports = module.exports = class BananenBase {
           } catch(e) {
             console.log(`No keyv/@keyv/${options.database.type} package found, installing it...`);
             require("child_process").exec(`npm i -s keyv @keyv/${options.database.type}`, (a, b, c) => {
-              if (a || c) throw Error(a || c);
+              if (a || c) return error(a || c);
               keyv = require("keyv");
               console.log(`keyv/@keyv/${options.database.type} successfull installed!\n`);
               status = true;
@@ -183,30 +169,30 @@ exports = module.exports = class BananenBase {
           let interval = setInterval(() => {
             if (status) {
               clearInterval(interval);
-              this._database = new keyv(`${options.database.type}://${options.database.code}`);
-              this._database.on("error", (err) => {
+              this.database = new keyv(`${options.database.type}://${options.database.code}`);
+              this.database.on("error", (err) => {
                 console.log(`Database error: ${err}`);
                 process.exit();
               });
-              this._databaseIsReady = true;
+              this.databaseIsReady = true;
             }
           });
         } else if (options.database.package === "enmap") {
-          if (!options.database.name) throw Error("No name for the enmap database!");
+          if (!options.database.name) return error("No name for the enmap database!");
           let enmap;
-          this._databaseIsReady = false;
+          this.databaseIsReady = false;
           try {
             enmap = require("enmap");
           } catch(e) {
-            throw Error("Enmap is not installed. It can't be installed automaticly, so look at the install guide of enmap: https://enmap.evie.codes/install");
+            return error("Enmap is not installed. It can't be installed automaticly, so look at the install guide of enmap: https://enmap.evie.codes/install");
           }
-          this._database = new enmap({name: options.database.name});
-          this._database.defer.then(() => {
-            this._databaseIsReady = true;
+          this.database = new enmap({name: options.database.name});
+          this.database.defer.then(() => {
+            this.databaseIsReady = true;
           });
-        } else throw Error("Invaled storage package! If you have a package that needs to be added here, please contact me: 'paul52games@gmail.com'.");
+        } else return error("Invaled storage package! If you have a package that needs to be added here, please contact me: 'paul52games@gmail.com'.");
       }
-    } else this._database = new Map();
+    } else this.database = new Map();
 
     if (!options.clientSettings) this.clientSettings = {
       disableEveryone: true,
@@ -220,39 +206,36 @@ exports = module.exports = class BananenBase {
 
     // Discord client
     let int = setInterval(() => {
-      if (this._databaseIsReady) {
+      if (this.databaseIsReady) {
         clearInterval(int);
         this.client = new discord.Client(options.clientSettings);
-        this.client.setMaxListeners(this._eventEmitterMaxFuncions);
-        this.client.login(this._token);
-        this.client.config = this._botConfig;
+        this.client.login(this.token);
+        this.client.config = this.botConfig;
         this.client.mainConfig = this;
-        this.client.db = this._database;
+        this.client.db = this.database;
         this.client.database = this.client.db;
-        this.client.settings = this._settings;
-        this.client.prefix = this._prefix;
-        this.client.activeCommands = this._activeCommands;
-        this.client.defaultPermissions = this._requiredPermissions;
-        this.client.ignore = this._ignore;
-        this.client.keepTrackOfDatabase = this._keepTrackOfDatabase;
-        this.client._triggerMessageUpdates = this._triggerMessageUpdates;
-        this.client._commandErrorThrowing = this._commandErrorThrowing;
-        if (this._language === "EN") {
-          this.client.stop = (reason = "I want to") => {
+        this.client.settings = this.settings;
+        this.client.prefix = this.prefix;
+        this.client.activeCommands = this.activeCommands;
+        this.client.defaultPermissions = this.requiredPermissions;
+        this.client.ignore = this.ignore;
+        this.client.keepTrackOfDatabase = this.keepTrackOfDatabase;
+        if (this.language === "EN") {
+          this.client.stop = function(reason = "I want to") {
             console.log(chalk.red(`Stopping because ${reason}`));
             setInterval(async () => {
-              let activeChannels = await this._database.get("activeChannels");
+              let activeChannels = await this.database.get("activeChannels");
               if (!activeChannels) activeChannels = [];
               if (activeChannels.length !== 0) return console.log(`Waiting for ${activeChannels.length} active channels...`);
               process.exit();
             }, 1000);
           }
           this.client.language = "en";
-        } else if (this._language === "NL") {
-          this.client.stop = (reason = "ik dat wilt") => {
+        } else if (this.language === "NL") {
+          this.client.stop = function(reason = "ik dat wilt") {
             console.log(chalk.red(`Stoppen omdat ${reason}`));
             setInterval(async () => {
-              let activeChannels = await this._database.get("activeChannels");
+              let activeChannels = await this.database.get("activeChannels");
               if (!activeChannels) activeChannels = [];
               if (activeChannels.length !== 0) return console.log(`Wachten op ${activeChannels.length} actieve kanalen...`);
               process.exit();
@@ -261,16 +244,16 @@ exports = module.exports = class BananenBase {
           this.client.language = "nl";
         }
 
-        delete this._token;
+        delete this.token;
         load(this);
 
         // Bot is ready
         this.client.on("ready", () => {
           if (this.client.language === "en") console.info(`${chalk.yellow(this.client.user.username)} is now online!\n`);
           else if (this.client.language === "nl") console.info(`${chalk.yellow(this.client.user.username)} is nu online!\n`);
-          this._bot(this.client);
+          this.bot(this.client);
 
-          if (this._server) {
+          if (this.server) {
             let status = false;
             let packages = {};
             try {
@@ -286,7 +269,7 @@ exports = module.exports = class BananenBase {
             } catch(e) {
               console.log(`No required wep-app packages found, installing the required packages... (express, ejs, body-parser, cors, btoa, node-fetch, request, random-string)`);
               require("child_process").exec(`npm i -s express ejs body-parser cors btoa node-fetch request random-string`, (a, b, c) => {
-                if (a || c) throw Error(a || c);
+                if (a || c) return error(a || c);
                 packages.express = require("express");
                 packages.ejs = require("ejs");
                 packages.bodyParser = require("body-parser");
@@ -311,8 +294,8 @@ exports = module.exports = class BananenBase {
                     return packages.randomString({length: length});
                   }
                   res.sendDiscordLogin = (options) => {
-                    if (!options) throw Error("No options for the send discord login!");
-                    if (!options.clientID || !options.redirect) throw Error("Invalid options object!");
+                    if (!options) return error("No options for the send discord login!");
+                    if (!options.clientID || !options.redirect) return error("Invalid options object!");
                     if (!options.scope) options.scope = [];
                     ["identify", "email", "guilds"].forEach(thing => {
                       if (!options.scope.includes(thing)) options.scope.push(thing);
@@ -321,8 +304,8 @@ exports = module.exports = class BananenBase {
                   }
                   res.handleDiscordLogin = (options) => {
                     return new Promise(async (resolve, reject) => {
-                      if (!options) throw Error("No req or options for handeling the discord login!");
-                      if (!options.clientID || !options.clientSecret || !options.redirect) throw Error("Invalid options object!");
+                      if (!options) return error("No req or options for handeling the discord login!");
+                      if (!options.clientID || !options.clientSecret || !options.redirect) return error("Invalid options object!");
                       if (req.query.error) {
                         return reject(req.query.error);
                       }
@@ -353,30 +336,17 @@ exports = module.exports = class BananenBase {
                   }
                   next();
                 });
-                app.listen(this._webPort, () => {
-                  console.info(`Web app is online on port ${this._webPort}!\n`);
+                app.listen(this.webPort, () => {
+                  console.info(`Web app is online on port ${this.webPort}!\n`);
                 });
-                this._server(app, this.client);
+                this.server(app, this.client);
               }
             });
           }
         });
 
         // Bot message
-        this.client.on("message", (message) => {this._message(this.client, message)});
-        if (this._triggerMessageUpdates) {
-          this.client._sendMessagesMap = new Map();
-          this.client.sendMessage = (channel, message, content) => {
-            return new Promise(async (resolve) => {
-              let msg;
-              if (!this.client._sendMessagesMap.has(message.id)) msg = await channel.send(content);
-              else msg = await this.client._sendMessagesMap.get(message.id).edit(content);
-              this.client._sendMessagesMap.set(message.id, msg);
-              resolve(msg);
-            });
-          }
-          this.client.on("messageUpdate", (o, n) => {this._message(this.client, n)});
-        }
+        this.client.on("message", (message) => {this.message(this.client, message)});
       }
     });
   }
@@ -386,4 +356,3 @@ exports = module.exports = class BananenBase {
 exports.event = require("./bot/constructors/event.js");
 exports.command = require("./bot/constructors/command.js");
 exports.process_event = require("./bot/constructors/processEvent.js");
-exports.version = "v3.2.9";
