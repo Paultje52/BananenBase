@@ -113,10 +113,12 @@ exports = module.exports = class BananenBase {
     if (typeof options.database === "object") {
       this.databaseIsReady = false;
       let funcObject = false;
-      options.database.set("_tmp.bb_bananenbase/test", "temp");
-      options.database.get("_tmp.bb_bananenbase/test");
-      options.database.delete("_tmp.bb_bananenbase/test");
-      funcObject = true;
+      try {
+        options.database.set("_tmp.bb_bananenbase/test", "temp");
+        options.database.get("_tmp.bb_bananenbase/test");
+        options.database.delete("_tmp.bb_bananenbase/test");
+        funcObject = true;
+      } catch(e) {}
       if (funcObject) this.database = options.database;
       else {
         if (!options.database.package) return error("Invaled database object!");
