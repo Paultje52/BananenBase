@@ -1,3 +1,7 @@
+# V3.2.12
+## Fixed
+- A database load issue
+
 # V3.2.11
 ## Fixed
 - A database chrash issue
