@@ -1,3 +1,7 @@
+# V3.2.13
+## Fixed
+- Custom message functions
+
 # V3.2.12
 ## Fixed
 - A database load issue
