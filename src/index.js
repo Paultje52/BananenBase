@@ -16,17 +16,17 @@ exports = module.exports = class BananenBase {
     else this.language = options.language;
     if (!["EN", "NL"].includes(this.language)) return error("Invalid language!");
 
-    switch (this.language) {
-      case "EN":
-        options.message = messageEvent;
-        break;
-      case "NL":
-        options.message = nl_messageEvent;
-        break;
-    }
-
     this.message = options.message;
-    if (!this.message) this.message = messageEvent;
+    if (!this.message) {
+      switch (this.language) {
+        case "EN":
+          this.message = messageEvent;
+          break;
+        case "NL":
+          this.message = nl_messageEvent;
+          break;
+      }
+    }
 
     this.requiredPermissions = options.requiredPermissions;
     if (!this.requiredPermissions) this.requiredPermissions = ["READ_MESSAGES", "SEND_MESSAGES"];
