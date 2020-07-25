@@ -1,0 +1,24 @@
+{
+  "prefix": ",",
+  "modules": {
+    "loader": {
+      "commands": "/commands",
+      "events": "/events"
+    },
+    "database": {
+      "name": "database",
+      "development": true,
+      "guildSettings": {
+        "useOnlyChannel": false,
+        "guildPrefix": false
+      },
+      "userSettings": {
+        "balance": 10
+      },
+      "inMemory": true
+    },
+    "messageflags": {
+      "prefix": "-"
+    }
+  }
+}

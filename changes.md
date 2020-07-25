@@ -1,3 +1,11 @@
+# V4.0.0
+A compleat rewrite!
+
+- The BananenBase uses a module-bases system now!
+- Added modules: alias, database, loader, messageflags, security and start!
+- Finaly created a documentation!
+- Removed webserver functions, they will be added in V4.1
+
 # V3.2.13
 ## Fixed
 - Custom message functions
