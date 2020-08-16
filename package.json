@@ -1,6 +1,6 @@
 {
   "name": "bananenbase",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Thé discord.js framework!",
   "main": "./src/BananenBase.js",
   "types": "./src/BananenBase.d.ts",
@@ -18,22 +18,10 @@
     "discord",
     "discord-js",
     "discord-api",
-    "discordjs",
-    "discordjbot",
-    "discordapp",
-    "base",
     "discord-js-bot",
-    "discord-js-example",
     "discord-js-base",
-    "discord-js-framework",
-    "nodejs",
-    "framework",
-    "nodejs-framework"
+    "discord-js-framework"
   ],
   "author": "Paultje52",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Paul52Games/BananenBase/issues"
-  },
-  "homepage": "https://github.com/Paul52Games/BananenBase#readme"
+  "license": "ISC"
 }
