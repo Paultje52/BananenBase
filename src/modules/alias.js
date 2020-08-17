@@ -8,6 +8,7 @@ module.exports = class StartModule extends require("../constructors/module.js") 
 
   onMessage(message) {
     let prefix = this.BananenBase.prefix;
+    if (this.BananenBase.config && this.BananenBase.config.prefix) prefix = this.BananenBase.config.prefix;
     if (message.guild && message.guild.settings && message.guild.settings.prefix) prefix = message.guild.settings.prefix;
     if (message.author && message.author.settings && message.author.settings.prefix) prefix = message.guild.author.prefix;
     if (!prefix) prefix = ".";
