@@ -162,14 +162,21 @@ declare class DatabaseClass {
 		compression?: boolean
 	})
 
-	isReady(func: function): Promise<undefined>
-	get(key: string): Promise<any>
-	set(key: string, value: any): Promise<boolean>
-	delete(key: string): Promise<boolean>
+	public isReady(func: function): Promise<undefined>
+	public get(key: string): Promise<any>
+	public set(key: string, value: any): Promise<boolean>
+	public delete(key: string): Promise<boolean>
 
 	private sterilize(data: any): string
 	private desterilize(data: string): any
 	private sterilizeKey(key: string): string
+
+	private compression: boolean
+	private caching: boolean
+	private memory: object
+	private sqlite: object
+	
+	public ready: boolean
 }
 
 declare class BananenBaseModule_Database extends Module {
