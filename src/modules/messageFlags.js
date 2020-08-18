@@ -1,4 +1,4 @@
-module.exports = class MessageFlags extends require("../constructors/module.js") {
+module.exports = class MessageFlags extends require("../constructors/Module.js") {
   constructor() {
     super({
       name: "messageflags",

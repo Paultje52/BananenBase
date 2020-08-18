@@ -2,7 +2,7 @@ const colors = require("../colors.js");
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 
-module.exports = class LoaderModule extends require("../constructors/module.js") {
+module.exports = class LoaderModule extends require("../constructors/Module.js") {
   constructor() {
     super({
       name: "loader",

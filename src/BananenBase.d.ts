@@ -87,8 +87,11 @@ declare class evnt {
 }
 
 declare namespace BananenBase {
-	export let command = cmd;
-	export let event = evnt;
+	export let Command = cmd;
+	export let Event = evnt;
+	export let Module = Module;
+	export let Database = DatabaseClass;
+
 	export let colors = colorsFunction;
 	export let version = string;
 	export let modules = {
@@ -99,24 +102,24 @@ declare namespace BananenBase {
 		database: BananenBaseModule_Database,
 		messageFlags: BananenBaseModule_MessageFlags,
 		security: BananenBaseModule_Security
-	}
+	};
 }
 
 declare function colorsFunction(text: string): colorsInstance;
 
 declare interface colorsInstance {
 	private out: string,
-	done(): string,
-	log(): undefined,
-	black(): colorsInstance,
-	red(): colorsInstance,
-	green(): colorsInstance,
-	yellow(): colorsInstance,
-	blue(): colorsInstance,
-	magenta(): colorsInstance,
-	cyan(): colorsInstance,
-	white(): colorsInstance,
-	reset(): colorsInstance
+	public done(): string,
+	public log(): undefined,
+	public black(): colorsInstance,
+	public red(): colorsInstance,
+	public green(): colorsInstance,
+	public yellow(): colorsInstance,
+	public blue(): colorsInstance,
+	public magenta(): colorsInstance,
+	public cyan(): colorsInstance,
+	public white(): colorsInstance,
+	public reset(): colorsInstance
 }
 
 declare class BananenBaseModule_Start extends Module {
@@ -149,16 +152,13 @@ declare class BananenBaseModule_Args extends Module {
 	beforeCommandExecute(): boolean
 }
 
-declare namespace BananenBaseModule_Database {
-	Database: DatabaseClass
-}
-
 declare class DatabaseClass {
 	constructor(
 		options: {
 		name: string,
 		development?: boolean,
 		cwd?: string,
+		caching: string,
 		compression?: boolean
 	})
 
@@ -166,11 +166,16 @@ declare class DatabaseClass {
 	get(key: string): Promise<any>
 	set(key: string, value: any): Promise<boolean>
 	delete(key: string): Promise<boolean>
+
+	private sterilize(data: any): string
+	private desterilize(data: string): any
+	private sterilizeKey(key: string): string
 }
 
 declare class BananenBaseModule_Database extends Module {
 	constructor()
-	beforeCommandExecute(): boolean
+	afterConfigure(): undefined
+	onMessage(): undefined
 }
 
 declare class BananenBaseModule_MessageFlags extends Module {

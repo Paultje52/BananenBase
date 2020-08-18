@@ -1,6 +1,6 @@
 const colors = require("../colors.js");
 
-module.exports = class StartModule extends require("../constructors/module.js") {
+module.exports = class StartModule extends require("../constructors/Module.js") {
   constructor() {
     super({
       dependencies: ["discord.js"],

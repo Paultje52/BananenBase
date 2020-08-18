@@ -1,4 +1,4 @@
-module.exports = class BananenBaseModule {
+module.exports = class Module {
   constructor({name, dependencies, toConfigure, priority} = {
     name: "???",
     dependencies: [],

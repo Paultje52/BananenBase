@@ -1,4 +1,4 @@
-module.exports = class SecurityModule extends require("../constructors/module.js") {
+module.exports = class SecurityModule extends require("../constructors/Module.js") {
   constructor() {
     super({
       name: "security",

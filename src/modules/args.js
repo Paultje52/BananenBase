@@ -1,4 +1,4 @@
-module.exports = class Args extends require("../constructors/module.js") {
+module.exports = class Args extends require("../constructors/Module.js") {
   constructor() {
     super({
       name: "args"
