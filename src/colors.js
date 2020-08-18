@@ -4,6 +4,9 @@ module.exports = function Color(string) {
     done: function () {
       return `${this.out}${string}\x1b[0m`;
     },
+    log: function () {
+      return console.log(this.done());
+    },
     black: function () {
       this.out += "\x1b[30m";
       return this;
