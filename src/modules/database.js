@@ -1,7 +1,7 @@
 const path = require("path");
 const colors = require("../colors.js");
 
-module.exports = class DatabaseModule extends require("../constructors/module.js") {
+module.exports = exports = class DatabaseModule extends require("../constructors/module.js") {
   constructor() {
     super({
       name: "database",
@@ -17,7 +17,7 @@ module.exports = class DatabaseModule extends require("../constructors/module.js
   }
 
   afterConfigure() {
-    this.database = new DataBase({
+    this.database = new Database({
       development: this.options.development,
       cwd: process.cwd(),
       name: this.options.name
@@ -45,7 +45,7 @@ module.exports = class DatabaseModule extends require("../constructors/module.js
   }
 }
 
-class DataBase {
+class Database {
   constructor({development = false, cwd = __dirname, name ="database"} = {development: false, cwd: __dirname, name: "database"}) {
     if (development) {
       this.database = new (require("json-config-store"))({
@@ -121,3 +121,5 @@ class DataBase {
     });
   }
 }
+
+exports.Database = Database;
