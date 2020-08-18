@@ -3,6 +3,7 @@ const BananenBase = require("../src/BananenBase");
 let bot = new BananenBase("TOKEN");
 
 bot.set("debug", console.log);
+bot.set("discord.js-debugging", false);
 
 bot.setConfig(require("./config.json"));
 bot.addModule(["loader", "alias", "database", "messageflags", "args"]);

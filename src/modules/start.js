@@ -19,7 +19,7 @@ module.exports = class StartModule extends require("../constructors/Module.js") 
     if (this.options.disabled) return;
     const discord = require("discord.js");
     this.client = new discord.Client();
-    this.client.on("debug", this.BananenBase.debug);
+    if (typeof this.BananenBase["discord.js-debugging"] === "boolean" && this.BananenBase["discord.js-debugging"]) this.client.on("debug", this.BananenBase.debug);
     this.BananenBase.client = this.client;
     this.BananenBase.start = () => {
       this.start();
