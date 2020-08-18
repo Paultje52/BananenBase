@@ -79,8 +79,14 @@ module.exports = exports = class BananenBase {
 let modules = require("./moduleFunctions/moduleList.js");
 modules.setExport(exports);
 
-exports.command = require("./constructors/command.js");
-exports.event = require("./constructors/event.js");
-exports.module = require("./constructors/module.js");
+exports.Command = require("./constructors/Command.js");
+exports.Event = require("./constructors/Event.js");
+exports.Module = require("./constructors/Module.js");
+exports.Database = require("./constructors/Database.js");
+
 exports.colors = require("./colors.js");
 exports.version = require("../package.json").version;
+
+exports.command = exports.Command;
+exports.event = exports.Event;
+exports.module = exports.Module;
