@@ -20,5 +20,5 @@ bot.addModule("security", {
 bot.ready((BananenBase) => {
   BananenBase.start();
 }).then(() => {
-  console.log("Starting bot!");
+  console.log("BananenBase is ready!");
 });
