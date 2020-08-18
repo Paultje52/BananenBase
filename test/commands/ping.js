@@ -14,7 +14,11 @@ module.exports = class Command extends BananenBase.command {
       value: {
         usage: "%prefix%ping",
         examples: ["%prefix%ping", "%prefix%ping -avarage"],
-        checks: []
+        checks: [{
+          test: () => {
+            return true;
+          }, name: "test"
+        }]
       }
     });
   }

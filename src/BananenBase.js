@@ -17,6 +17,8 @@ module.exports = exports = class BananenBase {
       prefix: "."
     };
 
+    this.debug = () => {};
+
     console.warn = (...args) => {
       console.log(colors("[Warn]").yellow().done(), ...args);
     }
@@ -26,6 +28,7 @@ module.exports = exports = class BananenBase {
 
   set(key, value) {
     this[key] = value;
+    this.debug(`${key} changed`);
     return this;
   }
 
@@ -35,6 +38,7 @@ module.exports = exports = class BananenBase {
       name.forEach(module => {this.addModule(module, options);});
       return this;
     }
+    this.debug(`Adding module ${name}!`);
     setTimeout(async () => {
       let oldName = name;
       if (typeof name === "string" && !name.includes("/") && !name.includes("\\")) name = require("./moduleFunctions/moduleList.js")[name.toLowerCase()];
@@ -56,6 +60,7 @@ module.exports = exports = class BananenBase {
   setConfig(config) {
     this.config = config;
     if (!this.config.prefix) this.config.prefix = ".";
+    this.debug(`Config changed!`);
     return this;
   }
   
@@ -68,6 +73,7 @@ module.exports = exports = class BananenBase {
           module = this.modules[module];
           if ((!module.ready || module.installingDependencies) && module.name) return;
         }
+        this.debug(`BananenBase is ready!`);
         clearInterval(this.i);
         func(this);
         res(this);
