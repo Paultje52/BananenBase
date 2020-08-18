@@ -57,5 +57,7 @@ module.exports = class SecurityModule extends require("../constructors/module.js
         return false;
       }
     }
+
+    return true;
   }
 }
