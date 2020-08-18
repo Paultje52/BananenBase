@@ -9,6 +9,8 @@ module.exports = class Args extends require("../constructors/Module.js") {
     if (!continues) return false;
     if (!cmd.arguments.args) return true;
 
+    if (!cmd.arguments.args.checks || !cmd.arguments.args.examples || !cmd.arguments.args.usage) return true;
+
     let argumentChecks = cmd.arguments.args.checks;
     let usage = cmd.arguments.args.usage.replace("%prefix%", message.prefix);
     let example = cmd.arguments.args.examples[Math.floor(Math.random() * cmd.arguments.args.examples.length)].replace("%prefix%", message.prefix);
