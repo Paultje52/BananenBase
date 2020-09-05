@@ -28,7 +28,7 @@ class Database {
         this.sqlite.all("SELECT * FROM BananenBase;", (err, data) => {
           if (err) throw err;
           data.forEach(d => {
-            this.memory[d.key] = JSON.parse(d.value);
+            this.memory[d.key] = this.desterilize(d.value);
           });
           this.ready = true;
         });
@@ -47,8 +47,8 @@ class Database {
   }
 
   get(key) {
-    key = this.sterilizeKey(key);
     if (this.memory[key]) return this.memory[key];
+    key = this.sterilizeKey(key);
 
     return new Promise((res) => {
       this.sqlite.all(`SELECT value FROM BananenBase WHERE key='${key}';`, [], (err, data) => {
@@ -62,6 +62,7 @@ class Database {
   set(key, value) {
     if (this.caching) this.memory[key] = value;
     value = this.sterilize(value);
+    key = this.sterilizeKey(key);
 
     return new Promise((res) => {
       this.sqlite.all(`SELECT * FROM BananenBase where key='${key}'`, [], (err, data) => {
@@ -79,6 +80,7 @@ class Database {
 
   delete(key) {
     delete this.memory[key];
+    key = this.sterilizeKey(key);
 
     return new Promise((res) => {
       this.sqlite.all(`DELETE FROM BananenBase WHERE key='${key}'`, [], (err) => {
@@ -92,7 +94,7 @@ class Database {
     try {
       data = data.split("'").join("''");
     } catch(e) {}
-    data = JSON.stringify(); // Make the data JSON
+    data = JSON.stringify(data); // Make the data JSON
     if (!this.compression) return data;
 
     const lz = require("lzjs");
@@ -100,7 +102,6 @@ class Database {
   }
 
   desterilize(data) {
-    console.log(data);
     if (!data) return undefined;
     if (this.compression) {
       const lz = require("lzjs");
