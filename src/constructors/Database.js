@@ -54,7 +54,7 @@ class Database {
       this.sqlite.all(`SELECT value FROM BananenBase WHERE key='${key}';`, [], (err, data) => {
         if (err) throw err;
         if (data.length === 0) return res(undefined);
-        res(this.desterilize(data[0].key));
+        res(this.desterilize(data[0].value));
       });
     }); 
   }
@@ -89,20 +89,29 @@ class Database {
   }
 
   sterilize(data) {
-    data = JSON.stringify(data) // Make the data JSON
-           .split("'").join("''"); // Remove all single '
+    try {
+      data = data.split("'").join("''");
+    } catch(e) {}
+    data = JSON.stringify(); // Make the data JSON
     if (!this.compression) return data;
 
     const lz = require("lzjs");
     return lz.compress(data);
   }
-  desterilize(data) {
-    data = JSON.parse(data) // Parse the JSON data
-           .split("''").join(""); // All the '' back to '
-    if (!this.compression) return data;
 
-    const lz = require("lzjs");
-    return lz.decompress(data);
+  desterilize(data) {
+    console.log(data);
+    if (!data) return undefined;
+    if (this.compression) {
+      const lz = require("lzjs");
+      data = lz.decompress(data);
+    }
+
+    try {
+      data = data.split("''").join("'");
+    } catch(e) {}
+
+    return JSON.parse(data); // Parse the JSON data
   }
 
   sterilizeKey(key) {
